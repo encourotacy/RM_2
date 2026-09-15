@@ -6,7 +6,7 @@
 			[
 				{
 					"build" : ".",
-					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"jsonFile" : "directory-.-f5ebdc15457944623624.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.16.3"
@@ -22,7 +22,7 @@
 					]
 				}
 			],
-			"name" : "Debug",
+			"name" : "",
 			"projects" : 
 			[
 				{
@@ -45,28 +45,28 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "main::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-main-Debug-faecd35247c95568560c.json",
+					"jsonFile" : "target-main-f9d8d206c41be571e431.json",
 					"name" : "main",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "main_hw::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-main_hw-Debug-e01550da30e58c86463e.json",
+					"jsonFile" : "target-main_hw-39d975d52f408248f342.json",
 					"name" : "main_hw",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "show_img::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-show_img-Debug-782ee8803d17b12db32f.json",
+					"jsonFile" : "target-show_img-59fd0e4c7e1c28d06a43.json",
 					"name" : "show_img",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "show_img_hw::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-show_img_hw-Debug-6c8c9748afbcc87d47c1.json",
+					"jsonFile" : "target-show_img_hw-f8fef30e8dc4d39249e2.json",
 					"name" : "show_img_hw",
 					"projectIndex" : 0
 				}
@@ -76,8 +76,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/media/star/Data/RM_2/class_3/build",
-		"source" : "/media/star/Data/RM_2/class_3"
+		"build" : "/home/star/RM_2/class_3/build",
+		"source" : "/home/star/RM_2/class_3"
 	},
 	"version" : 
 	{

@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/g++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/media/star/Data/RM_2/class_3/include -isystem /usr/include/opencv4
+CXX_INCLUDES = -I/home/star/RM_2/class_3/include -isystem /usr/include/opencv4
 
-CXX_FLAGS = -g
+CXX_FLAGS = 
 

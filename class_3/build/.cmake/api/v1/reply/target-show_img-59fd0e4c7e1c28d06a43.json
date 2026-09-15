@@ -52,17 +52,11 @@
 	"compileGroups" : 
 	[
 		{
-			"compileCommandFragments" : 
-			[
-				{
-					"fragment" : "-g"
-				}
-			],
 			"includes" : 
 			[
 				{
 					"backtrace" : 3,
-					"path" : "/media/star/Data/RM_2/class_3/include"
+					"path" : "/home/star/RM_2/class_3/include"
 				},
 				{
 					"backtrace" : 4,
@@ -90,10 +84,6 @@
 	{
 		"commandFragments" : 
 		[
-			{
-				"fragment" : "-g",
-				"role" : "flags"
-			},
 			{
 				"fragment" : "",
 				"role" : "flags"

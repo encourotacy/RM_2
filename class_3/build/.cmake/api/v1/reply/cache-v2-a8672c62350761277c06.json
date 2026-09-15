@@ -39,11 +39,11 @@
 			[
 				{
 					"name" : "HELPSTRING",
-					"value" : "No help, variable specified on the command line."
+					"value" : "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel ..."
 				}
 			],
 			"type" : "STRING",
-			"value" : "Debug"
+			"value" : ""
 		},
 		{
 			"name" : "CMAKE_CACHEFILE_DIR",
@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/media/star/Data/RM_2/class_3/build"
+			"value" : "/home/star/RM_2/class_3/build"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -155,10 +155,10 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "No help, variable specified on the command line."
+					"value" : "CXX compiler"
 				}
 			],
-			"type" : "FILEPATH",
+			"type" : "STRING",
 			"value" : "/usr/bin/g++"
 		},
 		{
@@ -283,10 +283,10 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "No help, variable specified on the command line."
+					"value" : "C compiler"
 				}
 			],
-			"type" : "FILEPATH",
+			"type" : "STRING",
 			"value" : "/usr/bin/gcc"
 		},
 		{
@@ -519,11 +519,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "No help, variable specified on the command line."
+					"value" : "Enable/Disable output of compile commands during generation."
 				}
 			],
 			"type" : "BOOL",
-			"value" : "TRUE"
+			"value" : ""
 		},
 		{
 			"name" : "CMAKE_EXTRA_GENERATOR",
@@ -595,7 +595,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/media/star/Data/RM_2/class_3"
+			"value" : "/home/star/RM_2/class_3"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -1155,7 +1155,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/media/star/Data/RM_2/class_3/build"
+			"value" : "/home/star/RM_2/class_3/build"
 		},
 		{
 			"name" : "class_3_IS_TOP_LEVEL",
@@ -1179,7 +1179,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/media/star/Data/RM_2/class_3"
+			"value" : "/home/star/RM_2/class_3"
 		}
 	],
 	"kind" : "cache",

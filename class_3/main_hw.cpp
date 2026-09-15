@@ -6,54 +6,49 @@ int main()
 {
     // 读取图片
     cv::Mat bgr_img;
-    // TODO: 用 cv::imread 读取 "imgs/red_3.jpg"
+    bgr_img = cv::imread("imgs/red_3.jpg");
 
-    // 彩色图转灰度图
+    // Task1: 用 cv::cvtColor 把 bgr_img 转成灰度图 gray_img, 
+    // 转换码是 cv::COLOR_BGR2GRAY，并显示灰度图，窗口名是 "gray"，窗口大小为 0.5x0.5
     cv::Mat gray_img;
-    // TODO: 用 cv::cvtColor 把 bgr_img 转成灰度图 gray_img
-    // 提示：转换码是 cv::COLOR_BGR2GRAY
-    // 显示灰度图，调试用
-    cv::resize(gray_img, gray_img, {}, 0.5, 0.5);
-    cv::imshow("gray", gray_img);
-    cv::resize(gray_img, gray_img, {}, 2, 2);
 
-    // 进行二值化
+
+
+    // Task2: 用 cv::threshold 把 gray_img 二值化到 binary_img, 
+    // 阈值 120，最大值 255，类型 cv::THRESH_BINARY，并显示二值图，窗口名是 "binary"，窗口大小为 0.5x0.5
     cv::Mat binary_img;
-    // TODO: 用 cv::threshold 把 gray_img 二值化到 binary_img
-    // 提示：阈值 120，最大值 255，类型 cv::THRESH_BINARY
-    // 显示二值图，调试用
-    cv::resize(binary_img, binary_img, {}, 0.5, 0.5);
-    cv::imshow("binary", binary_img);
-    cv::resize(binary_img, binary_img, {}, 2, 2);
 
-    // 获取轮廓点
+
+
+    // Task3: 用 cv::findContours 从 binary_img 提取轮廓到 contours, 
+    // 模式 cv::RETR_EXTERNAL，方法 cv::CHAIN_APPROX_NONE
     std::vector<std::vector<cv::Point>> contours;
-    // TODO: 用 cv::findContours 从 binary_img 提取轮廓到 contours
-    // 提示：模式 cv::RETR_EXTERNAL，方法 cv::CHAIN_APPROX_NONE
 
-    // 显示轮廓点，调试用
+
+
+    // Task4: 用 cv::drawContours 把 contours 画到 drawcontours 上, 
+    // 颜色可用 {0, 0, 255}，线宽 5，并显示轮廓图，窗口名是 "drawcontours"，窗口大小为 0.5x0.5
     cv::Mat drawcontours = bgr_img.clone();
     for (const auto & contour : contours) {
         tools::drawContour(drawcontours, contour);
     }
-    // TODO: 用 cv::drawContours 把 contours 画到 drawcontours 上
-    // 提示：颜色可用 {0, 0, 5}，线宽 5
-    cv::resize(drawcontours, drawcontours, {}, 0.5, 0.5);
-    cv::imshow("drawcontours", drawcontours);
 
-    // 获取旋转矩形并显示，示范用
+
+
+    // Task5: 用 cv::minAreaRect 拟合当前 contour，结果放进 rotated_rects
     std::vector<cv::RotatedRect> rotated_rects;
     for (const auto & contour : contours) {
-        // TODO: 用 cv::minAreaRect 拟合当前 contour，结果放进 rotated_rects
+
     }
+
+    // Task6: 用 rotated_rect.points(...) 取出 4 个角点，
+    // 并显示旋转矩形图，窗口名是 "drawrect"，窗口大小为 0.5x0.5
     cv::Mat drawrect = bgr_img.clone();
     for (const auto & rotated_rect : rotated_rects) {
         std::vector<cv::Point2f> points(4);
-        // TODO: 用 rotated_rect.points(...) 取出 4 个角点
+
         tools::draw_points(drawrect, points);
     }
-    cv::resize(drawrect, drawrect, {}, 0.5, 0.5);
-    cv::imshow("drawrect", drawrect);
 
     cv::waitKey(0);
     return 0;

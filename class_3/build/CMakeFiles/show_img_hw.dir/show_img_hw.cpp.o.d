@@ -1,5 +1,5 @@
-CMakeFiles/show_img.dir/show_img.cpp.o: \
- /home/star/RM_2/class_3/show_img.cpp /usr/include/stdc-predef.h \
+CMakeFiles/show_img_hw.dir/show_img_hw.cpp.o: \
+ /home/star/RM_2/class_3/show_img_hw.cpp /usr/include/stdc-predef.h \
  /usr/include/opencv4/opencv2/opencv.hpp \
  /usr/include/opencv4/opencv2/opencv_modules.hpp \
  /usr/include/opencv4/opencv2/core.hpp \

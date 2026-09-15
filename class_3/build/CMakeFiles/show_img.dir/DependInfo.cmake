@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/media/star/Data/RM_2/class_3/show_img.cpp" "CMakeFiles/show_img.dir/show_img.cpp.o" "gcc" "CMakeFiles/show_img.dir/show_img.cpp.o.d"
+  "/home/star/RM_2/class_3/show_img.cpp" "CMakeFiles/show_img.dir/show_img.cpp.o" "gcc" "CMakeFiles/show_img.dir/show_img.cpp.o.d"
   )
 
 # Targets to which this target links.

@@ -1,4 +1,4 @@
-CMakeFiles/main.dir/main.cpp.o: /media/star/Data/RM_2/class_3/main.cpp \
+CMakeFiles/main.dir/main.cpp.o: /home/star/RM_2/class_3/main.cpp \
  /usr/include/stdc-predef.h /usr/include/opencv4/opencv2/opencv.hpp \
  /usr/include/opencv4/opencv2/opencv_modules.hpp \
  /usr/include/opencv4/opencv2/core.hpp \
@@ -345,4 +345,4 @@ CMakeFiles/main.dir/main.cpp.o: /media/star/Data/RM_2/class_3/main.cpp \
  /usr/include/opencv4/opencv2/video.hpp \
  /usr/include/opencv4/opencv2/video/tracking.hpp \
  /usr/include/opencv4/opencv2/video/background_segm.hpp \
- /media/star/Data/RM_2/class_3/include/img_tools.hpp
+ /home/star/RM_2/class_3/include/img_tools.hpp

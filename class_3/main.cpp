@@ -33,7 +33,7 @@ int main()
     for (const auto & contour : contours) {
         tools::drawContour(drawcontours, contour);
     }
-    cv::drawContours(drawcontours, contours, {}, {0, 0, 5}, 5);
+    cv::drawContours(drawcontours, contours, {}, {0, 0, 255}, 5);
     cv::resize(drawcontours, drawcontours, {}, 0.5, 0.5);
     cv::imshow("drawcontours", drawcontours);
 

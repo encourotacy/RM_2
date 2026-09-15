@@ -1,6 +1,5 @@
-CMakeFiles/show_img.dir/show_img.cpp.o: \
- /home/star/RM_2/class_3/show_img.cpp /usr/include/stdc-predef.h \
- /usr/include/opencv4/opencv2/opencv.hpp \
+CMakeFiles/main_hw.dir/main_hw.cpp.o: /home/star/RM_2/class_3/main_hw.cpp \
+ /usr/include/stdc-predef.h /usr/include/opencv4/opencv2/opencv.hpp \
  /usr/include/opencv4/opencv2/opencv_modules.hpp \
  /usr/include/opencv4/opencv2/core.hpp \
  /usr/include/opencv4/opencv2/core/cvdef.h \
@@ -345,4 +344,5 @@ CMakeFiles/show_img.dir/show_img.cpp.o: \
  /usr/include/opencv4/opencv2/stitching/detail/camera.hpp \
  /usr/include/opencv4/opencv2/video.hpp \
  /usr/include/opencv4/opencv2/video/tracking.hpp \
- /usr/include/opencv4/opencv2/video/background_segm.hpp
+ /usr/include/opencv4/opencv2/video/background_segm.hpp \
+ /home/star/RM_2/class_3/include/img_tools.hpp
