@@ -1,4 +1,5 @@
 {
-    "cmake.sourceDirectory": "D:/RM_2/class_3",
-    "cmake.ignoreCMakeListsMissing": true
+    "cmake.sourceDirectory": "${workspaceFolder}/class_3",
+    "cmake.buildDirectory": "${workspaceFolder}/class_3/build",
+    "cmake.copyCompileCommands": "${workspaceFolder}/class_3/compile_commands.json"
 }

@@ -18,7 +18,7 @@ g++ src/cmake_learn.cpp tools/hello.cpp -I includes -o cmake_learn #编译
 #前两行必写
 cmake_minimum_required(VERSION 3.11)
 
-project(ros_ws)
+project(CMake_test)
 
 #添加xxx.hpp所在的文件夹（如果有多个，用空格隔开，要有完整路径）（如果是当前文件夹可以不用）
 include_directories(./includes) # . 表示当前目录，在此情况下可以选择加也可以选择不加，因为默认会在project里面找

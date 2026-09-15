@@ -6,10 +6,10 @@
 			[
 				{
 					"build" : ".",
-					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"jsonFile" : "directory-.-f5ebdc15457944623624.json",
 					"minimumCMakeVersion" : 
 					{
-						"string" : "3.1.3"
+						"string" : "3.16.3"
 					},
 					"projectIndex" : 0,
 					"source" : ".",
@@ -20,7 +20,7 @@
 					]
 				}
 			],
-			"name" : "Debug",
+			"name" : "",
 			"projects" : 
 			[
 				{
@@ -28,7 +28,7 @@
 					[
 						0
 					],
-					"name" : "hello_opencv",
+					"name" : "class_3",
 					"targetIndexes" : 
 					[
 						0,
@@ -41,14 +41,14 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "main::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-main-Debug-0924e4f458c733611a73.json",
+					"jsonFile" : "target-main-98886bc39ee9a196738d.json",
 					"name" : "main",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "show_img::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-show_img-Debug-a49e8dfb39237b3c6f83.json",
+					"jsonFile" : "target-show_img-f0c4949a338d1cc628a9.json",
 					"name" : "show_img",
 					"projectIndex" : 0
 				}

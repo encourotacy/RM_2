@@ -20,7 +20,7 @@ Ubuntu 下通过 apt 安装：
 
 ```bash
 sudo apt update
-sudo apt install libopencv-dev             # 系统包，版本较旧但够用
+sudo apt install libopencv-dev             # OpenCV系统包
 apt show libopencv-dev                     # 查看版本
 ```
 
@@ -28,9 +28,15 @@ apt show libopencv-dev                     # 查看版本
 
 CMake 工程里链接 OpenCV 只需：
 
+[OpenCV4.5.4](https://docs.opencv.org/4.5.4/df/d65/tutorial_table_of_content_introduction.html)
+
 ```cmake
-find_package(OpenCV REQUIRED)
-target_link_libraries(your_app ${OpenCV_LIBS})
+cmake_minimum_required(VERSION 2.8)
+project( DisplayImage )
+find_package( OpenCV REQUIRED )
+include_directories( ${OpenCV_INCLUDE_DIRS} )
+add_executable( DisplayImage DisplayImage.cpp )
+target_link_libraries( DisplayImage ${OpenCV_LIBS} )
 ```
 
 对于OpenCV的报错：
