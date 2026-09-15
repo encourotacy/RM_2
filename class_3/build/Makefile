@@ -142,6 +142,32 @@ show_img/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/show_img.dir/build.make CMakeFiles/show_img.dir/build
 .PHONY : show_img/fast
 
+#=============================================================================
+# Target rules for targets named main_hw
+
+# Build rule for target.
+main_hw: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 main_hw
+.PHONY : main_hw
+
+# fast build rule for target.
+main_hw/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_hw.dir/build.make CMakeFiles/main_hw.dir/build
+.PHONY : main_hw/fast
+
+#=============================================================================
+# Target rules for targets named show_img_hw
+
+# Build rule for target.
+show_img_hw: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 show_img_hw
+.PHONY : show_img_hw
+
+# fast build rule for target.
+show_img_hw/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/show_img_hw.dir/build.make CMakeFiles/show_img_hw.dir/build
+.PHONY : show_img_hw/fast
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -165,6 +191,30 @@ main.s: main.cpp.s
 main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.s
 .PHONY : main.cpp.s
+
+main_hw.o: main_hw.cpp.o
+.PHONY : main_hw.o
+
+# target to build an object file
+main_hw.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_hw.dir/build.make CMakeFiles/main_hw.dir/main_hw.cpp.o
+.PHONY : main_hw.cpp.o
+
+main_hw.i: main_hw.cpp.i
+.PHONY : main_hw.i
+
+# target to preprocess a source file
+main_hw.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_hw.dir/build.make CMakeFiles/main_hw.dir/main_hw.cpp.i
+.PHONY : main_hw.cpp.i
+
+main_hw.s: main_hw.cpp.s
+.PHONY : main_hw.s
+
+# target to generate assembly for a file
+main_hw.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_hw.dir/build.make CMakeFiles/main_hw.dir/main_hw.cpp.s
+.PHONY : main_hw.cpp.s
 
 show_img.o: show_img.cpp.o
 .PHONY : show_img.o
@@ -190,6 +240,30 @@ show_img.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/show_img.dir/build.make CMakeFiles/show_img.dir/show_img.cpp.s
 .PHONY : show_img.cpp.s
 
+show_img_hw.o: show_img_hw.cpp.o
+.PHONY : show_img_hw.o
+
+# target to build an object file
+show_img_hw.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/show_img_hw.dir/build.make CMakeFiles/show_img_hw.dir/show_img_hw.cpp.o
+.PHONY : show_img_hw.cpp.o
+
+show_img_hw.i: show_img_hw.cpp.i
+.PHONY : show_img_hw.i
+
+# target to preprocess a source file
+show_img_hw.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/show_img_hw.dir/build.make CMakeFiles/show_img_hw.dir/show_img_hw.cpp.i
+.PHONY : show_img_hw.cpp.i
+
+show_img_hw.s: show_img_hw.cpp.s
+.PHONY : show_img_hw.s
+
+# target to generate assembly for a file
+show_img_hw.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/show_img_hw.dir/build.make CMakeFiles/show_img_hw.dir/show_img_hw.cpp.s
+.PHONY : show_img_hw.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -199,13 +273,21 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... main"
+	@echo "... main_hw"
 	@echo "... show_img"
+	@echo "... show_img_hw"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... main_hw.o"
+	@echo "... main_hw.i"
+	@echo "... main_hw.s"
 	@echo "... show_img.o"
 	@echo "... show_img.i"
 	@echo "... show_img.s"
+	@echo "... show_img_hw.o"
+	@echo "... show_img_hw.i"
+	@echo "... show_img_hw.s"
 .PHONY : help
 
 

@@ -9,6 +9,10 @@ include_directories(include)
 
 add_executable(main main.cpp)
 add_executable(show_img show_img.cpp)
+add_executable(main_hw main_hw.cpp)
+add_executable(show_img_hw show_img_hw.cpp)
 
 target_link_libraries(main ${OpenCV_LIBS} )
 target_link_libraries(show_img ${OpenCV_LIBS} )
+target_link_libraries(main_hw ${OpenCV_LIBS} )
+target_link_libraries(show_img_hw ${OpenCV_LIBS} )

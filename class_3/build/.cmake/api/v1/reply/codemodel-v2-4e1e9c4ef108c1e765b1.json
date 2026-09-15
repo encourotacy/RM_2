@@ -6,7 +6,7 @@
 			[
 				{
 					"build" : ".",
-					"jsonFile" : "directory-.-f5ebdc15457944623624.json",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.16.3"
@@ -16,11 +16,13 @@
 					"targetIndexes" : 
 					[
 						0,
-						1
+						1,
+						2,
+						3
 					]
 				}
 			],
-			"name" : "",
+			"name" : "Debug",
 			"projects" : 
 			[
 				{
@@ -32,7 +34,9 @@
 					"targetIndexes" : 
 					[
 						0,
-						1
+						1,
+						2,
+						3
 					]
 				}
 			],
@@ -41,15 +45,29 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "main::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-main-98886bc39ee9a196738d.json",
+					"jsonFile" : "target-main-Debug-faecd35247c95568560c.json",
 					"name" : "main",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
+					"id" : "main_hw::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-main_hw-Debug-e01550da30e58c86463e.json",
+					"name" : "main_hw",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
 					"id" : "show_img::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-show_img-f0c4949a338d1cc628a9.json",
+					"jsonFile" : "target-show_img-Debug-782ee8803d17b12db32f.json",
 					"name" : "show_img",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "show_img_hw::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-show_img_hw-Debug-6c8c9748afbcc87d47c1.json",
+					"name" : "show_img_hw",
 					"projectIndex" : 0
 				}
 			]

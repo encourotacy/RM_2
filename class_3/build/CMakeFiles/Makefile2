@@ -65,6 +65,8 @@ CMAKE_BINARY_DIR = /media/star/Data/RM_2/class_3/build
 # The main recursive "all" target.
 all: CMakeFiles/main.dir/all
 all: CMakeFiles/show_img.dir/all
+all: CMakeFiles/main_hw.dir/all
+all: CMakeFiles/show_img_hw.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -74,6 +76,8 @@ preinstall:
 # The main recursive "clean" target.
 clean: CMakeFiles/main.dir/clean
 clean: CMakeFiles/show_img.dir/clean
+clean: CMakeFiles/main_hw.dir/clean
+clean: CMakeFiles/show_img_hw.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -109,7 +113,7 @@ CMakeFiles/main.dir/clean:
 CMakeFiles/show_img.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/show_img.dir/build.make CMakeFiles/show_img.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/show_img.dir/build.make CMakeFiles/show_img.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/star/Data/RM_2/class_3/build/CMakeFiles --progress-num=3,4 "Built target show_img"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/star/Data/RM_2/class_3/build/CMakeFiles --progress-num=5,6 "Built target show_img"
 .PHONY : CMakeFiles/show_img.dir/all
 
 # Build rule for subdir invocation for target.
@@ -127,6 +131,58 @@ show_img: CMakeFiles/show_img.dir/rule
 CMakeFiles/show_img.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/show_img.dir/build.make CMakeFiles/show_img.dir/clean
 .PHONY : CMakeFiles/show_img.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/main_hw.dir
+
+# All Build rule for target.
+CMakeFiles/main_hw.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_hw.dir/build.make CMakeFiles/main_hw.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_hw.dir/build.make CMakeFiles/main_hw.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/star/Data/RM_2/class_3/build/CMakeFiles --progress-num=3,4 "Built target main_hw"
+.PHONY : CMakeFiles/main_hw.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/main_hw.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/star/Data/RM_2/class_3/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/main_hw.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/star/Data/RM_2/class_3/build/CMakeFiles 0
+.PHONY : CMakeFiles/main_hw.dir/rule
+
+# Convenience name for target.
+main_hw: CMakeFiles/main_hw.dir/rule
+.PHONY : main_hw
+
+# clean rule for target.
+CMakeFiles/main_hw.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_hw.dir/build.make CMakeFiles/main_hw.dir/clean
+.PHONY : CMakeFiles/main_hw.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/show_img_hw.dir
+
+# All Build rule for target.
+CMakeFiles/show_img_hw.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/show_img_hw.dir/build.make CMakeFiles/show_img_hw.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/show_img_hw.dir/build.make CMakeFiles/show_img_hw.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/star/Data/RM_2/class_3/build/CMakeFiles --progress-num=7,8 "Built target show_img_hw"
+.PHONY : CMakeFiles/show_img_hw.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/show_img_hw.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/star/Data/RM_2/class_3/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/show_img_hw.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/star/Data/RM_2/class_3/build/CMakeFiles 0
+.PHONY : CMakeFiles/show_img_hw.dir/rule
+
+# Convenience name for target.
+show_img_hw: CMakeFiles/show_img_hw.dir/rule
+.PHONY : show_img_hw
+
+# clean rule for target.
+CMakeFiles/show_img_hw.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/show_img_hw.dir/build.make CMakeFiles/show_img_hw.dir/clean
+.PHONY : CMakeFiles/show_img_hw.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
