@@ -1,0 +1,4 @@
+/media/star/Data/RM_2/class_3/build/CMakeFiles/main.dir
+/media/star/Data/RM_2/class_3/build/CMakeFiles/show_img.dir
+/media/star/Data/RM_2/class_3/build/CMakeFiles/edit_cache.dir
+/media/star/Data/RM_2/class_3/build/CMakeFiles/rebuild_cache.dir
