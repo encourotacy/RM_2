@@ -18,5 +18,10 @@
   "directory": "/home/star/RM_2/class_3/build",
   "command": "/usr/bin/g++  -I/home/star/RM_2/class_3/include -isystem /usr/include/opencv4  -o CMakeFiles/show_img_hw.dir/show_img_hw.cpp.o -c /home/star/RM_2/class_3/show_img_hw.cpp",
   "file": "/home/star/RM_2/class_3/show_img_hw.cpp"
+},
+{
+  "directory": "/home/star/RM_2/class_3/build",
+  "command": "/usr/bin/g++  -I/home/star/RM_2/class_3/include -isystem /usr/include/opencv4  -o CMakeFiles/detect_armor.dir/detect_armor.cpp.o -c /home/star/RM_2/class_3/detect_armor.cpp",
+  "file": "/home/star/RM_2/class_3/detect_armor.cpp"
 }
 ]

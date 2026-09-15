@@ -53,4 +53,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/show_img.dir/DependInfo.cmake"
   "CMakeFiles/main_hw.dir/DependInfo.cmake"
   "CMakeFiles/show_img_hw.dir/DependInfo.cmake"
+  "CMakeFiles/detect_armor.dir/DependInfo.cmake"
   )

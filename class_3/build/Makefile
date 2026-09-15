@@ -168,6 +168,43 @@ show_img_hw/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/show_img_hw.dir/build.make CMakeFiles/show_img_hw.dir/build
 .PHONY : show_img_hw/fast
 
+#=============================================================================
+# Target rules for targets named detect_armor
+
+# Build rule for target.
+detect_armor: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 detect_armor
+.PHONY : detect_armor
+
+# fast build rule for target.
+detect_armor/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/detect_armor.dir/build.make CMakeFiles/detect_armor.dir/build
+.PHONY : detect_armor/fast
+
+detect_armor.o: detect_armor.cpp.o
+.PHONY : detect_armor.o
+
+# target to build an object file
+detect_armor.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/detect_armor.dir/build.make CMakeFiles/detect_armor.dir/detect_armor.cpp.o
+.PHONY : detect_armor.cpp.o
+
+detect_armor.i: detect_armor.cpp.i
+.PHONY : detect_armor.i
+
+# target to preprocess a source file
+detect_armor.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/detect_armor.dir/build.make CMakeFiles/detect_armor.dir/detect_armor.cpp.i
+.PHONY : detect_armor.cpp.i
+
+detect_armor.s: detect_armor.cpp.s
+.PHONY : detect_armor.s
+
+# target to generate assembly for a file
+detect_armor.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/detect_armor.dir/build.make CMakeFiles/detect_armor.dir/detect_armor.cpp.s
+.PHONY : detect_armor.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -272,10 +309,14 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... detect_armor"
 	@echo "... main"
 	@echo "... main_hw"
 	@echo "... show_img"
 	@echo "... show_img_hw"
+	@echo "... detect_armor.o"
+	@echo "... detect_armor.i"
+	@echo "... detect_armor.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

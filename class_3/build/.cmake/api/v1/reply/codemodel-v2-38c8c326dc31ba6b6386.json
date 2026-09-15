@@ -18,7 +18,8 @@
 						0,
 						1,
 						2,
-						3
+						3,
+						4
 					]
 				}
 			],
@@ -36,7 +37,8 @@
 						0,
 						1,
 						2,
-						3
+						3,
+						4
 					]
 				}
 			],
@@ -44,29 +46,36 @@
 			[
 				{
 					"directoryIndex" : 0,
+					"id" : "detect_armor::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-detect_armor-4c8adaf0a4ec5f552ed9.json",
+					"name" : "detect_armor",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
 					"id" : "main::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-main-f9d8d206c41be571e431.json",
+					"jsonFile" : "target-main-b97b5ff81b8c08817001.json",
 					"name" : "main",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "main_hw::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-main_hw-39d975d52f408248f342.json",
+					"jsonFile" : "target-main_hw-1dd86d6227ff527fcc7a.json",
 					"name" : "main_hw",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "show_img::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-show_img-59fd0e4c7e1c28d06a43.json",
+					"jsonFile" : "target-show_img-f3ebd5a18a4621a9cb0a.json",
 					"name" : "show_img",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "show_img_hw::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-show_img_hw-f8fef30e8dc4d39249e2.json",
+					"jsonFile" : "target-show_img_hw-eb6ec5bbfdb6842850f1.json",
 					"name" : "show_img_hw",
 					"projectIndex" : 0
 				}
