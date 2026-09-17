@@ -181,6 +181,19 @@ detect_armor/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/detect_armor.dir/build.make CMakeFiles/detect_armor.dir/build
 .PHONY : detect_armor/fast
 
+#=============================================================================
+# Target rules for targets named detect_armor_hw
+
+# Build rule for target.
+detect_armor_hw: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 detect_armor_hw
+.PHONY : detect_armor_hw
+
+# fast build rule for target.
+detect_armor_hw/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/detect_armor_hw.dir/build.make CMakeFiles/detect_armor_hw.dir/build
+.PHONY : detect_armor_hw/fast
+
 detect_armor.o: detect_armor.cpp.o
 .PHONY : detect_armor.o
 
@@ -204,6 +217,30 @@ detect_armor.s: detect_armor.cpp.s
 detect_armor.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/detect_armor.dir/build.make CMakeFiles/detect_armor.dir/detect_armor.cpp.s
 .PHONY : detect_armor.cpp.s
+
+detect_armor_hw.o: detect_armor_hw.cpp.o
+.PHONY : detect_armor_hw.o
+
+# target to build an object file
+detect_armor_hw.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/detect_armor_hw.dir/build.make CMakeFiles/detect_armor_hw.dir/detect_armor_hw.cpp.o
+.PHONY : detect_armor_hw.cpp.o
+
+detect_armor_hw.i: detect_armor_hw.cpp.i
+.PHONY : detect_armor_hw.i
+
+# target to preprocess a source file
+detect_armor_hw.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/detect_armor_hw.dir/build.make CMakeFiles/detect_armor_hw.dir/detect_armor_hw.cpp.i
+.PHONY : detect_armor_hw.cpp.i
+
+detect_armor_hw.s: detect_armor_hw.cpp.s
+.PHONY : detect_armor_hw.s
+
+# target to generate assembly for a file
+detect_armor_hw.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/detect_armor_hw.dir/build.make CMakeFiles/detect_armor_hw.dir/detect_armor_hw.cpp.s
+.PHONY : detect_armor_hw.cpp.s
 
 main.o: main.cpp.o
 .PHONY : main.o
@@ -310,6 +347,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... detect_armor"
+	@echo "... detect_armor_hw"
 	@echo "... main"
 	@echo "... main_hw"
 	@echo "... show_img"
@@ -317,6 +355,9 @@ help:
 	@echo "... detect_armor.o"
 	@echo "... detect_armor.i"
 	@echo "... detect_armor.s"
+	@echo "... detect_armor_hw.o"
+	@echo "... detect_armor_hw.i"
+	@echo "... detect_armor_hw.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

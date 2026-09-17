@@ -6,7 +6,7 @@
 			[
 				{
 					"build" : ".",
-					"jsonFile" : "directory-.-f5ebdc15457944623624.json",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.16.3"
@@ -19,11 +19,12 @@
 						1,
 						2,
 						3,
-						4
+						4,
+						5
 					]
 				}
 			],
-			"name" : "",
+			"name" : "Debug",
 			"projects" : 
 			[
 				{
@@ -38,7 +39,8 @@
 						1,
 						2,
 						3,
-						4
+						4,
+						5
 					]
 				}
 			],
@@ -47,35 +49,42 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "detect_armor::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-detect_armor-4c8adaf0a4ec5f552ed9.json",
+					"jsonFile" : "target-detect_armor-Debug-404f92b52f476f43b878.json",
 					"name" : "detect_armor",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
+					"id" : "detect_armor_hw::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-detect_armor_hw-Debug-bea5b841c177c4704e69.json",
+					"name" : "detect_armor_hw",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
 					"id" : "main::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-main-b97b5ff81b8c08817001.json",
+					"jsonFile" : "target-main-Debug-c4caff593e018f03785e.json",
 					"name" : "main",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "main_hw::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-main_hw-1dd86d6227ff527fcc7a.json",
+					"jsonFile" : "target-main_hw-Debug-a147fea2d216b1fc1bbe.json",
 					"name" : "main_hw",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "show_img::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-show_img-f3ebd5a18a4621a9cb0a.json",
+					"jsonFile" : "target-show_img-Debug-5e282353440c756c3b9d.json",
 					"name" : "show_img",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "show_img_hw::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-show_img_hw-eb6ec5bbfdb6842850f1.json",
+					"jsonFile" : "target-show_img_hw-Debug-7a132b8e085a64824436.json",
 					"name" : "show_img_hw",
 					"projectIndex" : 0
 				}

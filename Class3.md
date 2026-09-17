@@ -12,13 +12,14 @@
 - [三、课堂演示](#sec-demo)
 - [四、参考答案](#sec-answers)
 - [五、和后续装甲板识别的衔接](#sec-next)
-- [六、从各种图到装甲板识别](#sec-detect)
-  - [1. 整条流水线看一眼](#sec-detect-pipeline)
+- [六、装甲板识别](#sec-detect)
+  - [1. 整条流水线](#sec-detect-pipeline)
   - [2. 灰度 → 二值 → 轮廓 → 旋转矩形](#sec-detect-front)
   - [3. 几何过滤](#sec-detect-geom)
   - [4. 灯条配对](#sec-detect-pair)
   - [5. 数字分类](#sec-detect-digit)
   - [6. 画在原图上核对](#sec-detect-draw)
+  - [7. 课堂作业 `detect_armor_hw`](#sec-detect-hw)
 
 <a id="sec-overview"></a>
 ## 一、课程概述
@@ -38,9 +39,11 @@
 | 文件 | 作用 |
 |------|------|
 | `show_img.cpp` / `main.cpp` | 完整示例 |
-| `show_img_hw.cpp` / `main_hw.cpp` | 课堂演示，按 Task 现场填写 |
+| `show_img_hw.cpp` / `main_hw.cpp` | 课堂作业，按 Task 现场填写 |
+| `detect_armor.cpp` / `detect_armor_hw.cpp` | 装甲板识别示例 / 几何过滤+配对作业 |
 | `include/img_tools.hpp` | 画点、画轮廓的小工具 |
-| `imgs/red_3.jpg` | 默认输入图（红方装甲板） |
+| `imgs/red_2.jpg` | 红方装甲板 |
+| `imgs/blue_4.jpg` | 蓝方装甲板（识别作业默认图） |
 
 编译、运行必须在 `class_3/` 下，因为图片路径是相对路径：
 
@@ -50,6 +53,10 @@ cmake -B build
 make -C build
 build/show_img
 build/main
+build/detect_armor
+build/show_img_hw
+build/main_hw
+build/detect_armor_hw
 ```
 
 安装 OpenCV：`sudo apt install libopencv-dev`。头文件统一写：
@@ -210,12 +217,12 @@ cv::Mat drawcontours = bgr_img.clone();
 <a id="sec-demo"></a>
 ## 三、课堂演示
 
-对照 `show_img.cpp` / `main.cpp`，在 `*_hw.cpp` 里按 Task 把语句填上。
+展示 `show_img.cpp` / `main.cpp`实现的功能。
 
 ```bash
-make -C build show_img_hw main_hw
-build/show_img_hw    # 应弹出 blue / green / red
-build/main_hw        # 应弹出 gray / binary / drawcontours / drawrect
+make -C build 
+build/show_img    # 应弹出 blue / green / red
+build/main        # 应弹出 gray / binary / drawcontours / drawrect
 ```
 
 `show_img_hw.cpp` 要写：`imread`、`split`、取 B/G/R、`resize`、`imshow`。
@@ -234,6 +241,8 @@ build/main_hw        # 应弹出 gray / binary / drawcontours / drawrect
 灰度、二值显示完后记得 `resize(..., 2, 2)` 恢复原大小，否则后面找轮廓会和原图对不上。
 
 > 把路径改成 `imgs/blue_4.jpg`，看 blue / red 谁更亮。把阈值 `120` 改成 `80` 和 `200`，看 `binary` 和轮廓数量怎么变。
+
+装甲板识别先看 `build/detect_armor`，再按同样的 Task 模式填 `detect_armor_hw.cpp`（第六节）。
 
 ---
 
@@ -259,52 +268,99 @@ cv::imshow("red", red);
 `main_hw.cpp`：
 
 ```cpp
+// Task1
 cv::cvtColor(bgr_img, gray_img, cv::COLOR_BGR2GRAY);
 cv::resize(gray_img, gray_img, {}, 0.5, 0.5);
 cv::imshow("gray", gray_img);
 cv::resize(gray_img, gray_img, {}, 2, 2);
 
+// Task2
 cv::threshold(gray_img, binary_img, 120, 255, cv::THRESH_BINARY);
 cv::resize(binary_img, binary_img, {}, 0.5, 0.5);
 cv::imshow("binary", binary_img);
 cv::resize(binary_img, binary_img, {}, 2, 2);
 
+// Task3
 cv::findContours(binary_img, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_NONE);
+
+// Task4（写在已有的 for 循环后面）
 cv::drawContours(drawcontours, contours, {}, {0, 0, 255}, 5);
 cv::resize(drawcontours, drawcontours, {}, 0.5, 0.5);
 cv::imshow("drawcontours", drawcontours);
 
-auto rotated_rect = cv::minAreaRect(contour);
-rotated_rects.emplace_back(rotated_rect);
-rotated_rect.points(points.data());
+// Task5
+for (const auto & contour : contours) {          // 作业里已有
+    auto rotated_rect = cv::minAreaRect(contour);
+    rotated_rects.emplace_back(rotated_rect);
+}
+
+// Task6
+for (const auto & rotated_rect : rotated_rects) { // 作业里已有
+    std::vector<cv::Point2f> points(4);           // 作业里已有
+    rotated_rect.points(points.data());
+    tools::draw_points(drawrect, points);         // 作业里已有
+}
 cv::resize(drawrect, drawrect, {}, 0.5, 0.5);
 cv::imshow("drawrect", drawrect);
+```
+
+`detect_armor_hw.cpp`：
+
+```cpp
+// Task1
+bool angle_ok = lightbar.angle_error < kMaxAngleErrorDeg * CV_PI / 180.0;
+bool ratio_ok =
+    lightbar.ratio > kMinLightbarRatio && lightbar.ratio < kMaxLightbarRatio;
+bool length_ok = lightbar.length > kMinLightbarLength;
+
+// Task2
+if (!(angle_ok && ratio_ok && length_ok)) {
+    continue;
+}
+
+// Task3
+if (!get_color(bgr_img, contour, lightbar.color)) {
+    continue;
+}
+
+// Task4
+if (result.lightbars[i].color != result.lightbars[j].color) {
+    continue;
+}
+
+// Task5
+Armor armor(result.lightbars[i], result.lightbars[j]);
+
+// Task6
+bool ratio_ok = armor.ratio > kMinArmorRatio && armor.ratio < kMaxArmorRatio;
+bool side_ok = armor.side_ratio < kMaxSideRatio;
+bool rect_ok = armor.rectangular_error < kMaxRectangularErrorDeg * CV_PI / 180.0;
+if (ratio_ok && side_ok && rect_ok) {
+    result.armors.emplace_back(armor);
+}
 ```
 
 ---
 
 <a id="sec-next"></a>
-## 五、和后续装甲板识别的衔接
+## 五、与装甲板识别的衔接
 
-| 本课算子 | 后面怎么用 |
+| 本课函数 | 后续用途 |
 |----------|------------|
-| `split` / BGR | 比较轮廓上蓝、红通道，判断敌我颜色 |
-| `cvtColor` BGR→Gray | 灯条检测前先转灰度 |
+| `split` | 比较轮廓上蓝、红通道，判断敌我颜色 |
+| `cvtColor` | 灯条检测前先转灰度 |
 | `threshold` | 把亮灯条变成白色连通域 |
 | `findContours` | 抠出灯条轮廓 |
 | `minAreaRect` | 拟合灯条，再算长宽比、角度 |
 
-完整自瞄还会做几何过滤、灯条配对、数字分类等，留给后续课程。今天先保证：通道能拆开，灰度 → 二值 → 轮廓 → 旋转矩形能跑通。
+以上是借助OpenCV对图像进行初步处理，而完整自瞄还会做几何过滤、灯条配对、数字分类等，即要回答：哪些矩形是灯条、哪两根构成一块板、板上写的是几。
 
 <a id="sec-detect"></a>
-## 六、从各种图到装甲板识别
-
-课堂练习停在「旋转矩形」。完整识别还要回答：哪些矩形是灯条、哪两根构成一块板、板上写的是几。入口是 `detect_armor.cpp`，流水线在 `include/detector.hpp`，灯条和装甲板的几何定义在 `include/armor.hpp`。当前代码做到配对为止，数字分类先讲原理、先不写进程序。
+## 六、装甲板识别
 
 <a id="sec-detect-pipeline"></a>
-### 1. 整条流水线看一眼
+### 1. 整条流水线
 
-本课弹出来的窗口，对应识别里的每一步；加粗的三步是这一节要讲清楚的。
 
 ```
 BGR 原图
@@ -326,10 +382,10 @@ BGR 原图
   └─ detection     在原图上画出灯条（红/蓝）和装甲板（绿框）
 ```
 
-| 窗口 / 图 | 你在看什么 | 对应算子 |
+| 窗口  | 你在看什么 | 对应函数 |
 |-----------|------------|----------|
 | 原图 BGR | `imread` 读进来的彩色图 | — |
-| `gray` | 亮度，灯条最亮 | `cvtColor` `BGR2GRAY` |
+| `gray` | 亮度，灯条最亮 | `cvtColor` |
 | `binary` | 亮的变成白、暗的变成黑 | `threshold` |
 | `drawcontours` | 白色区域的边界 | `findContours` |
 | `drawrect` | 用最小旋转矩形包住每条轮廓 | `minAreaRect` |
@@ -340,8 +396,8 @@ BGR 原图
 ```bash
 cd class_3
 make -C build detect_armor
-build/detect_armor                 # 默认 imgs/armor2.jpg
-build/detect_armor imgs/red_3.jpg
+build/detect_armor                 # 默认 imgs/blue_4.jpg
+build/detect_armor imgs/red_2.jpg
 ```
 
 会弹出 `binary` 和 `detection`。终端会打印灯条数、装甲板数、颜色、中心和四个角点。
@@ -358,7 +414,7 @@ cv::findContours(binary_img, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_NONE)
 Lightbar lightbar(cv::minAreaRect(contour), id);
 ```
 
-阈值仍是课堂的 `120`。太低会把反光、数字也切进来；太高会把远处细灯条切没。
+阈值仍是 `120`。太低会把反光、数字也切进来；太高会把远处细灯条切没。
 
 `minAreaRect` 只给出四个角。构造 `Lightbar` 时把四个角按 **y 从小到大**排序：上面两个角取中点当 `top`，下面两个当 `bottom`。后面过滤、配对都用这些量，不再直接画旋转矩形的四个角。
 
@@ -485,7 +541,7 @@ cv::warpPerspective(gray_img, pattern, M, {W, H});
 
 网络（工程里常见是小 CNN，ONNX 推理）输出的是类别，不是「画出来的那个字」本身：
 
-| 输出 | 含义 | 板型（给下一课 PnP 用） |
+| 输出 | 含义 | 板型（给PnP 用） |
 |------|------|-------------------------|
 | `1` | 英雄 | 大装甲（约 23 cm） |
 | `2` | 工程 | 小装甲（约 13.5 cm） |
@@ -495,9 +551,8 @@ cv::warpPerspective(gray_img, pattern, M, {W, H});
 | `base` | 基地 | 大装甲 |
 | `not_armor` | 不是装甲板 | 丢掉这个候选 |
 
-置信度太低或判成 `not_armor`，这块候选就删掉——这是几何过滤之后的最后一道闸。判对之后，装甲板才同时具备：**颜色、四个角点、兵种、大小板型**。下一课 PnP 要用板型选 3D 模型点（小 13.5 cm / 大 23 cm）；打谁、打不打工程，也靠这个名字。
+置信度太低或判成 `not_armor`，这块候选就删掉——这是几何过滤之后的最后一道闸。判对之后，装甲板才同时具备：**颜色、四个角点、兵种、大小板型**。
 
-当前 `detect_armor` **没有**这一步，所以 `detection` 窗口里只标颜色和 `armor0`，不标数字。假板如果几何上像，也会被画出来。分类网络需要单独训练和模型文件，这一节只把位置和输入输出讲清，代码先不动。
 
 <a id="sec-detect-draw"></a>
 ### 6. 画在原图上核对
@@ -509,6 +564,32 @@ cv::warpPerspective(gray_img, pattern, M, {W, H});
 
 对照两个窗口即可：`binary` 里该亮的地方有没有亮；`detection` 里灯条颜色对不对、绿框有没有套住整块板。有数字分类之后，绿框旁边还应出现 `3`、`sentry` 这样的名字。
 
-把路径换成 `imgs/blue_4.jpg`，看颜色会不会判成 `blue`。把阈值从 `120` 改成 `80` 和 `200`，看灯条数和装甲板数怎么变——和课堂改 `binary` 是同一件事，只是后面多了过滤和配对。
+把路径换成 `imgs/red_2.jpg`，看颜色会不会判成 `red`。把阈值从 `120` 改成 `80` 和 `200`，看灯条数和装甲板数怎么变——和课堂改 `binary` 是同一件事，只是后面多了过滤和配对。
+
+<a id="sec-detect-hw"></a>
+### 7. 课堂作业 `detect_armor_hw`
+
+对照 `detect_armor.cpp`，在 `detect_armor_hw.cpp` 里按 Task 把几何过滤和灯条配对填上。灰度 → 二值 → 轮廓已经写好，常量、`get_color`、去重、画图也已经给好。**不要直接调用 `check_lightbar` / `check_armor`**，把判断条件写出来。
+
+```bash
+make -C build detect_armor_hw
+build/detect_armor_hw              # 默认 imgs/blue_4.jpg
+build/detect_armor_hw imgs/red_2.jpg
+```
+
+| Task | 做什么 | 填在哪 |
+|------|--------|--------|
+| 1 | 写出灯条的 `angle_ok` / `ratio_ok` / `length_ok` | 几何过滤循环里 |
+| 2 | 三项不都成立则 `continue` | Task1 后面 |
+| 3 | `get_color(...)` 失败则 `continue` | Task2 后面 |
+| 4 | 两根灯条不同色则 `continue` | 配对的双层循环里 |
+| 5 | 用第 `i`、`j` 根灯条构造 `Armor armor` | Task4 后面 |
+| 6 | 写出装甲板的 `ratio_ok` / `side_ok` / `rect_ok`，都过了才 `emplace_back` | Task5 后面 |
+
+只填完 Task1～3：终端里「灯条」应大于 0，`detection` 上有红/蓝灯条，还没有绿框。六题都填完：应弹出 `binary` / `detection`，绿框套住装甲板，效果和 `build/detect_armor` 一致。
+
+`kMaxAngleErrorDeg`、`kMaxRectangularErrorDeg` 单位是**度**，`lightbar.angle_error` 和 `armor.rectangular_error` 是**弧度**，比较时要乘 `CV_PI / 180.0`。
+
+> 只填几何、不填颜色，红图往往还能配上（默认色是红），蓝图会配错。把 `kMinLightbarLength` 改成 `80`，看远处细灯条会不会被滤掉。
 
 PnP 位姿还不做，那是下一课：用这里得到的四个角点和板型，把「图像里的板」变成「空间里的位置」。

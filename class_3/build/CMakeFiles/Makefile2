@@ -68,6 +68,7 @@ all: CMakeFiles/show_img.dir/all
 all: CMakeFiles/main_hw.dir/all
 all: CMakeFiles/show_img_hw.dir/all
 all: CMakeFiles/detect_armor.dir/all
+all: CMakeFiles/detect_armor_hw.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -80,6 +81,7 @@ clean: CMakeFiles/show_img.dir/clean
 clean: CMakeFiles/main_hw.dir/clean
 clean: CMakeFiles/show_img_hw.dir/clean
 clean: CMakeFiles/detect_armor.dir/clean
+clean: CMakeFiles/detect_armor_hw.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -89,7 +91,7 @@ clean: CMakeFiles/detect_armor.dir/clean
 CMakeFiles/main.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/star/RM_2/class_3/build/CMakeFiles --progress-num=3,4 "Built target main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/star/RM_2/class_3/build/CMakeFiles --progress-num=5,6 "Built target main"
 .PHONY : CMakeFiles/main.dir/all
 
 # Build rule for subdir invocation for target.
@@ -115,7 +117,7 @@ CMakeFiles/main.dir/clean:
 CMakeFiles/show_img.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/show_img.dir/build.make CMakeFiles/show_img.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/show_img.dir/build.make CMakeFiles/show_img.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/star/RM_2/class_3/build/CMakeFiles --progress-num=7,8 "Built target show_img"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/star/RM_2/class_3/build/CMakeFiles --progress-num=9,10 "Built target show_img"
 .PHONY : CMakeFiles/show_img.dir/all
 
 # Build rule for subdir invocation for target.
@@ -141,7 +143,7 @@ CMakeFiles/show_img.dir/clean:
 CMakeFiles/main_hw.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_hw.dir/build.make CMakeFiles/main_hw.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_hw.dir/build.make CMakeFiles/main_hw.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/star/RM_2/class_3/build/CMakeFiles --progress-num=5,6 "Built target main_hw"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/star/RM_2/class_3/build/CMakeFiles --progress-num=7,8 "Built target main_hw"
 .PHONY : CMakeFiles/main_hw.dir/all
 
 # Build rule for subdir invocation for target.
@@ -167,7 +169,7 @@ CMakeFiles/main_hw.dir/clean:
 CMakeFiles/show_img_hw.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/show_img_hw.dir/build.make CMakeFiles/show_img_hw.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/show_img_hw.dir/build.make CMakeFiles/show_img_hw.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/star/RM_2/class_3/build/CMakeFiles --progress-num=9,10 "Built target show_img_hw"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/star/RM_2/class_3/build/CMakeFiles --progress-num=11,12 "Built target show_img_hw"
 .PHONY : CMakeFiles/show_img_hw.dir/all
 
 # Build rule for subdir invocation for target.
@@ -211,6 +213,32 @@ detect_armor: CMakeFiles/detect_armor.dir/rule
 CMakeFiles/detect_armor.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/detect_armor.dir/build.make CMakeFiles/detect_armor.dir/clean
 .PHONY : CMakeFiles/detect_armor.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/detect_armor_hw.dir
+
+# All Build rule for target.
+CMakeFiles/detect_armor_hw.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/detect_armor_hw.dir/build.make CMakeFiles/detect_armor_hw.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/detect_armor_hw.dir/build.make CMakeFiles/detect_armor_hw.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/star/RM_2/class_3/build/CMakeFiles --progress-num=3,4 "Built target detect_armor_hw"
+.PHONY : CMakeFiles/detect_armor_hw.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/detect_armor_hw.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/star/RM_2/class_3/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/detect_armor_hw.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/star/RM_2/class_3/build/CMakeFiles 0
+.PHONY : CMakeFiles/detect_armor_hw.dir/rule
+
+# Convenience name for target.
+detect_armor_hw: CMakeFiles/detect_armor_hw.dir/rule
+.PHONY : detect_armor_hw
+
+# clean rule for target.
+CMakeFiles/detect_armor_hw.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/detect_armor_hw.dir/build.make CMakeFiles/detect_armor_hw.dir/clean
+.PHONY : CMakeFiles/detect_armor_hw.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
