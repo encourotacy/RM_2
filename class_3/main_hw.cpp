@@ -15,7 +15,7 @@ int main()
 
 
     // Task2: 用 cv::threshold 把 gray_img 二值化到 binary_img, 
-    // 阈值 120，最大值 255，类型 cv::THRESH_BINARY，并显示二值图，窗口名是 "binary"，窗口大小为 0.5x0.5
+    // 阈值 130，最大值 255，类型 cv::THRESH_BINARY，并显示二值图，窗口名是 "binary"，窗口大小为 0.5x0.5
     cv::Mat binary_img;
 
 

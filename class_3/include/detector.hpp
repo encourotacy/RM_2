@@ -11,7 +11,7 @@
 #include "img_tools.hpp"
 
 // 几何阈值来自 sp_vision_25 传统检测配置（configs/example.yaml）
-constexpr double kThreshold = 120;              // 课堂图用 120；工程里常见 150
+constexpr double kThreshold = 130;              // 二值化阈值
 constexpr double kMaxAngleErrorDeg = 45;        // 灯条相对竖直的最大偏角
 constexpr double kMinLightbarRatio = 1.5;       // 灯条长 / 宽
 constexpr double kMaxLightbarRatio = 20;

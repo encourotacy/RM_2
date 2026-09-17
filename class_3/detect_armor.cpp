@@ -12,7 +12,7 @@
 
 int main(int argc, char ** argv)
 {
-    const std::string img_path = (argc > 1) ? argv[1] : "imgs/blue_4.jpg";
+    const std::string img_path = (argc > 1) ? argv[1] : "imgs/armor2.jpg";
     cv::Mat bgr_img = cv::imread(img_path);
     if (bgr_img.empty()) {
         std::cerr << "无法读取图片: " << img_path << "\n"

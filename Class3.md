@@ -20,6 +20,7 @@
   - [5. 数字分类](#sec-detect-digit)
   - [6. 画在原图上核对](#sec-detect-draw)
   - [7. 课堂作业 `detect_armor_hw`](#sec-detect-hw)
+  - [8. 参考答案](#sec-detect-hw-answers)
 
 <a id="sec-overview"></a>
 ## 一、课程概述
@@ -41,6 +42,8 @@
 | `show_img.cpp` / `main.cpp` | 完整示例 |
 | `show_img_hw.cpp` / `main_hw.cpp` | 课堂作业，按 Task 现场填写 |
 | `detect_armor.cpp` / `detect_armor_hw.cpp` | 装甲板识别示例 / 几何过滤+配对作业 |
+| `include/detector.hpp` | 识别阈值、`get_color`、画结果 |
+| `include/armor.hpp` | 灯条 / 装甲板的几何定义 |
 | `include/img_tools.hpp` | 画点、画轮廓的小工具 |
 | `imgs/red_2.jpg` | 红方装甲板 |
 | `imgs/blue_4.jpg` | 蓝方装甲板（识别作业默认图） |
@@ -118,7 +121,7 @@ cv::threshold(src, dst, thresh, maxval, type);   // src：灰度图；dst：二�
 
 | 参数 | 本课取值 | 含义 |
 |------|----------|------|
-| `thresh` | `120` | 阈值 |
+| `thresh` | `130` | 阈值 |
 | `maxval` | `255` | 超过阈值时写成这个值 |
 | `type` | `cv::THRESH_BINARY` | ≥ 阈值 → `maxval`，否则 → 0 |
 
@@ -126,7 +129,7 @@ cv::threshold(src, dst, thresh, maxval, type);   // src：灰度图；dst：二�
 
 ```cpp
 cv::cvtColor(bgr, gray, cv::COLOR_BGR2GRAY);
-cv::threshold(gray, binary, 120, 255, cv::THRESH_BINARY);
+cv::threshold(gray, binary, 130, 255, cv::THRESH_BINARY);
 ```
 
 后续按颜色抠灯条时会用到 HSV：
@@ -232,7 +235,7 @@ build/main        # 应弹出 gray / binary / drawcontours / drawrect
 | Task | 函数 | 窗口 |
 |------|------|------|
 | 1 | `cvtColor`，转换码 `COLOR_BGR2GRAY` | `gray` |
-| 2 | `threshold`，`120 / 255 / THRESH_BINARY` | `binary` |
+| 2 | `threshold`，`130 / 255 / THRESH_BINARY` | `binary` |
 | 3 | `findContours`，`RETR_EXTERNAL` + `CHAIN_APPROX_NONE` | （不弹窗） |
 | 4 | `drawContours`，颜色 `{0, 0, 255}`，线宽 5 | `drawcontours` |
 | 5 | `minAreaRect` + `emplace_back` | （不弹窗） |
@@ -240,7 +243,7 @@ build/main        # 应弹出 gray / binary / drawcontours / drawrect
 
 灰度、二值显示完后记得 `resize(..., 2, 2)` 恢复原大小，否则后面找轮廓会和原图对不上。
 
-> 把路径改成 `imgs/blue_4.jpg`，看 blue / red 谁更亮。把阈值 `120` 改成 `80` 和 `200`，看 `binary` 和轮廓数量怎么变。
+> 把路径改成 `imgs/blue_4.jpg`，看 blue / red 谁更亮。把阈值 `130` 改成 `80` 和 `200`，看 `binary` 和轮廓数量怎么变。
 
 装甲板识别先看 `build/detect_armor`，再按同样的 Task 模式填 `detect_armor_hw.cpp`（第六节）。
 
@@ -275,7 +278,7 @@ cv::imshow("gray", gray_img);
 cv::resize(gray_img, gray_img, {}, 2, 2);
 
 // Task2
-cv::threshold(gray_img, binary_img, 120, 255, cv::THRESH_BINARY);
+cv::threshold(gray_img, binary_img, 130, 255, cv::THRESH_BINARY);
 cv::resize(binary_img, binary_img, {}, 0.5, 0.5);
 cv::imshow("binary", binary_img);
 cv::resize(binary_img, binary_img, {}, 2, 2);
@@ -304,41 +307,6 @@ cv::resize(drawrect, drawrect, {}, 0.5, 0.5);
 cv::imshow("drawrect", drawrect);
 ```
 
-`detect_armor_hw.cpp`：
-
-```cpp
-// Task1
-bool angle_ok = lightbar.angle_error < kMaxAngleErrorDeg * CV_PI / 180.0;
-bool ratio_ok =
-    lightbar.ratio > kMinLightbarRatio && lightbar.ratio < kMaxLightbarRatio;
-bool length_ok = lightbar.length > kMinLightbarLength;
-
-// Task2
-if (!(angle_ok && ratio_ok && length_ok)) {
-    continue;
-}
-
-// Task3
-if (!get_color(bgr_img, contour, lightbar.color)) {
-    continue;
-}
-
-// Task4
-if (result.lightbars[i].color != result.lightbars[j].color) {
-    continue;
-}
-
-// Task5
-Armor armor(result.lightbars[i], result.lightbars[j]);
-
-// Task6
-bool ratio_ok = armor.ratio > kMinArmorRatio && armor.ratio < kMaxArmorRatio;
-bool side_ok = armor.side_ratio < kMaxSideRatio;
-bool rect_ok = armor.rectangular_error < kMaxRectangularErrorDeg * CV_PI / 180.0;
-if (ratio_ok && side_ok && rect_ok) {
-    result.armors.emplace_back(armor);
-}
-```
 
 ---
 
@@ -409,12 +377,12 @@ build/detect_armor imgs/red_2.jpg
 
 ```cpp
 cv::cvtColor(bgr_img, gray_img, cv::COLOR_BGR2GRAY);
-cv::threshold(gray_img, binary_img, 120, 255, cv::THRESH_BINARY);
+cv::threshold(gray_img, binary_img, 130, 255, cv::THRESH_BINARY);
 cv::findContours(binary_img, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_NONE);
 Lightbar lightbar(cv::minAreaRect(contour), id);
 ```
 
-阈值仍是 `120`。太低会把反光、数字也切进来；太高会把远处细灯条切没。
+阈值是 `130`（课堂图实测；同济工程里常见 150）。太低会把反光、数字也切进来；太高会把远处细灯条切没。
 
 `minAreaRect` 只给出四个角。构造 `Lightbar` 时把四个角按 **y 从小到大**排序：上面两个角取中点当 `top`，下面两个当 `bottom`。后面过滤、配对都用这些量，不再直接画旋转矩形的四个角。
 
@@ -430,6 +398,23 @@ Lightbar lightbar(cv::minAreaRect(contour), id);
 ### 3. 几何过滤
 
 二值图里什么亮都会出轮廓：反光、白色数字、地面高光、横着的灯带。几何过滤要做的事只有一句：**单看这一根，它长得像不像灯条。**
+
+判断用的阈值写在 `include/detector.hpp` 里。`detect_armor_hw.cpp` 已经 `#include "detector.hpp"`，作业里直接用这些名字，不用自己再定义：
+
+```cpp
+// include/detector.hpp
+constexpr double kThreshold = 130;              // 课堂图实测；工程里常见 150
+constexpr double kMaxAngleErrorDeg = 45;        // 灯条相对竖直的最大偏角
+constexpr double kMinLightbarRatio = 1.5;       // 灯条长 / 宽
+constexpr double kMaxLightbarRatio = 20;
+constexpr double kMinLightbarLength = 15;       // 像素
+constexpr double kMinArmorRatio = 1;            // 灯条间距 / 较长灯条
+constexpr double kMaxArmorRatio = 5;
+constexpr double kMaxSideRatio = 1.5;           // 两灯条长度比
+constexpr double kMaxRectangularErrorDeg = 25;  // 两灯条与连线是否接近垂直
+```
+
+名字里带 `Deg` 的是**度**（45、25）；`lightbar.angle_error`、`armor.rectangular_error` 是**弧度**。比较时写成 `kMaxAngleErrorDeg * CV_PI / 180.0`，把度换成弧度。
 
 ```
 像灯条                不像灯条
@@ -564,16 +549,16 @@ cv::warpPerspective(gray_img, pattern, M, {W, H});
 
 对照两个窗口即可：`binary` 里该亮的地方有没有亮；`detection` 里灯条颜色对不对、绿框有没有套住整块板。有数字分类之后，绿框旁边还应出现 `3`、`sentry` 这样的名字。
 
-把路径换成 `imgs/red_2.jpg`，看颜色会不会判成 `red`。把阈值从 `120` 改成 `80` 和 `200`，看灯条数和装甲板数怎么变——和课堂改 `binary` 是同一件事，只是后面多了过滤和配对。
+把路径换成 `imgs/red_2.jpg`，看颜色会不会判成 `red`。把阈值从 `130` 改成 `80` 和 `200`，看灯条数和装甲板数怎么变——和课堂改 `binary` 是同一件事，只是后面多了过滤和配对。
 
 <a id="sec-detect-hw"></a>
 ### 7. 课堂作业 `detect_armor_hw`
 
-对照 `detect_armor.cpp`，在 `detect_armor_hw.cpp` 里按 Task 把几何过滤和灯条配对填上。灰度 → 二值 → 轮廓已经写好，常量、`get_color`、去重、画图也已经给好。**不要直接调用 `check_lightbar` / `check_armor`**，把判断条件写出来。
+对照 `detect_armor.cpp`，在 `detect_armor_hw.cpp` 里按 Task 把几何过滤和灯条配对填上。灰度 → 二值 → 轮廓已经写好，`get_color`、去重、画图也已经给好。阈值就是上面 `include/detector.hpp` 里那几行（`kMaxAngleErrorDeg` 等），作业已经 include 了这个头文件，直接写这些名字。**不要直接调用 `check_lightbar` / `check_armor`**，把判断条件写出来。
 
 ```bash
 make -C build detect_armor_hw
-build/detect_armor_hw              # 默认 imgs/blue_4.jpg
+build/detect_armor_hw              
 build/detect_armor_hw imgs/red_2.jpg
 ```
 
@@ -591,5 +576,44 @@ build/detect_armor_hw imgs/red_2.jpg
 `kMaxAngleErrorDeg`、`kMaxRectangularErrorDeg` 单位是**度**，`lightbar.angle_error` 和 `armor.rectangular_error` 是**弧度**，比较时要乘 `CV_PI / 180.0`。
 
 > 只填几何、不填颜色，红图往往还能配上（默认色是红），蓝图会配错。把 `kMinLightbarLength` 改成 `80`，看远处细灯条会不会被滤掉。
+
+<a id="sec-detect-hw-answers"></a>
+### 8. 参考答案
+
+`detect_armor_hw.cpp`：
+
+```cpp
+// Task1
+bool angle_ok = lightbar.angle_error < kMaxAngleErrorDeg * CV_PI / 180.0;
+bool ratio_ok =
+    lightbar.ratio > kMinLightbarRatio && lightbar.ratio < kMaxLightbarRatio;
+bool length_ok = lightbar.length > kMinLightbarLength;
+
+// Task2
+if (!(angle_ok && ratio_ok && length_ok)) {
+    continue;
+}
+
+// Task3
+if (!get_color(bgr_img, contour, lightbar.color)) {
+    continue;
+}
+
+// Task4
+if (result.lightbars[i].color != result.lightbars[j].color) {
+    continue;
+}
+
+// Task5
+Armor armor(result.lightbars[i], result.lightbars[j]);
+
+// Task6
+bool ratio_ok = armor.ratio > kMinArmorRatio && armor.ratio < kMaxArmorRatio;
+bool side_ok = armor.side_ratio < kMaxSideRatio;
+bool rect_ok = armor.rectangular_error < kMaxRectangularErrorDeg * CV_PI / 180.0;
+if (ratio_ok && side_ok && rect_ok) {
+    result.armors.emplace_back(armor);
+}
+```
 
 PnP 位姿还不做，那是下一课：用这里得到的四个角点和板型，把「图像里的板」变成「空间里的位置」。

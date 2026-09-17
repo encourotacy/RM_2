@@ -6,7 +6,7 @@ int main()
 {
     // 读取图片
     cv::Mat bgr_img;
-    bgr_img = cv::imread("imgs/red_3.jpg");
+    bgr_img = cv::imread("imgs/armor2.jpg");
 
     // 彩色图转灰度图
     cv::Mat gray_img;
@@ -18,7 +18,7 @@ int main()
 
     // 进行二值化
     cv::Mat binary_img;
-    cv::threshold(gray_img, binary_img, 120, 255, cv::THRESH_BINARY);
+    cv::threshold(gray_img, binary_img, 130, 255, cv::THRESH_BINARY);
     // 显示二值图，调试用
     cv::resize(binary_img, binary_img, {}, 0.5, 0.5);
     cv::imshow("binary", binary_img);
