@@ -28,5 +28,15 @@
   "directory": "/home/star/RM_2/class_3/build",
   "command": "/usr/bin/g++  -I/home/star/RM_2/class_3/include -isystem /usr/include/opencv4 -g -o CMakeFiles/detect_armor_hw.dir/detect_armor_hw.cpp.o -c /home/star/RM_2/class_3/detect_armor_hw.cpp",
   "file": "/home/star/RM_2/class_3/detect_armor_hw.cpp"
+},
+{
+  "directory": "/home/star/RM_2/class_3/build",
+  "command": "/usr/bin/g++  -I/home/star/RM_2/class_3/include -isystem /usr/include/opencv4 -g -o CMakeFiles/pnp.dir/pnp.cpp.o -c /home/star/RM_2/class_3/pnp.cpp",
+  "file": "/home/star/RM_2/class_3/pnp.cpp"
+},
+{
+  "directory": "/home/star/RM_2/class_3/build",
+  "command": "/usr/bin/g++  -I/home/star/RM_2/class_3/include -isystem /usr/include/opencv4 -g -o CMakeFiles/pnp_hw.dir/pnp_hw.cpp.o -c /home/star/RM_2/class_3/pnp_hw.cpp",
+  "file": "/home/star/RM_2/class_3/pnp_hw.cpp"
 }
 ]

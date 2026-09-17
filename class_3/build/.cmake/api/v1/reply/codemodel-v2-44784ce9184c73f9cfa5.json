@@ -20,7 +20,9 @@
 						2,
 						3,
 						4,
-						5
+						5,
+						6,
+						7
 					]
 				}
 			],
@@ -40,7 +42,9 @@
 						2,
 						3,
 						4,
-						5
+						5,
+						6,
+						7
 					]
 				}
 			],
@@ -49,42 +53,56 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "detect_armor::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-detect_armor-Debug-404f92b52f476f43b878.json",
+					"jsonFile" : "target-detect_armor-Debug-dc82ca098fdbb2fe8cf3.json",
 					"name" : "detect_armor",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "detect_armor_hw::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-detect_armor_hw-Debug-bea5b841c177c4704e69.json",
+					"jsonFile" : "target-detect_armor_hw-Debug-c2f269d29e88bede64d9.json",
 					"name" : "detect_armor_hw",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "main::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-main-Debug-c4caff593e018f03785e.json",
+					"jsonFile" : "target-main-Debug-405c6b6d94be2d3847e1.json",
 					"name" : "main",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "main_hw::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-main_hw-Debug-a147fea2d216b1fc1bbe.json",
+					"jsonFile" : "target-main_hw-Debug-e7f4862c6ac80f5a7c5d.json",
 					"name" : "main_hw",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
+					"id" : "pnp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-pnp-Debug-94459ac7e576de5755f6.json",
+					"name" : "pnp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "pnp_hw::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-pnp_hw-Debug-667a8f0e64bf886e8784.json",
+					"name" : "pnp_hw",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
 					"id" : "show_img::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-show_img-Debug-5e282353440c756c3b9d.json",
+					"jsonFile" : "target-show_img-Debug-a6356a79d039db74826f.json",
 					"name" : "show_img",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "show_img_hw::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-show_img_hw-Debug-7a132b8e085a64824436.json",
+					"jsonFile" : "target-show_img_hw-Debug-7b0db3a08b42ec071405.json",
 					"name" : "show_img_hw",
 					"projectIndex" : 0
 				}

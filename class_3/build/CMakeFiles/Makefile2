@@ -69,6 +69,8 @@ all: CMakeFiles/main_hw.dir/all
 all: CMakeFiles/show_img_hw.dir/all
 all: CMakeFiles/detect_armor.dir/all
 all: CMakeFiles/detect_armor_hw.dir/all
+all: CMakeFiles/pnp.dir/all
+all: CMakeFiles/pnp_hw.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -82,6 +84,8 @@ clean: CMakeFiles/main_hw.dir/clean
 clean: CMakeFiles/show_img_hw.dir/clean
 clean: CMakeFiles/detect_armor.dir/clean
 clean: CMakeFiles/detect_armor_hw.dir/clean
+clean: CMakeFiles/pnp.dir/clean
+clean: CMakeFiles/pnp_hw.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -117,7 +121,7 @@ CMakeFiles/main.dir/clean:
 CMakeFiles/show_img.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/show_img.dir/build.make CMakeFiles/show_img.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/show_img.dir/build.make CMakeFiles/show_img.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/star/RM_2/class_3/build/CMakeFiles --progress-num=9,10 "Built target show_img"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/star/RM_2/class_3/build/CMakeFiles --progress-num=13,14 "Built target show_img"
 .PHONY : CMakeFiles/show_img.dir/all
 
 # Build rule for subdir invocation for target.
@@ -169,7 +173,7 @@ CMakeFiles/main_hw.dir/clean:
 CMakeFiles/show_img_hw.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/show_img_hw.dir/build.make CMakeFiles/show_img_hw.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/show_img_hw.dir/build.make CMakeFiles/show_img_hw.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/star/RM_2/class_3/build/CMakeFiles --progress-num=11,12 "Built target show_img_hw"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/star/RM_2/class_3/build/CMakeFiles --progress-num=15,16 "Built target show_img_hw"
 .PHONY : CMakeFiles/show_img_hw.dir/all
 
 # Build rule for subdir invocation for target.
@@ -239,6 +243,58 @@ detect_armor_hw: CMakeFiles/detect_armor_hw.dir/rule
 CMakeFiles/detect_armor_hw.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/detect_armor_hw.dir/build.make CMakeFiles/detect_armor_hw.dir/clean
 .PHONY : CMakeFiles/detect_armor_hw.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/pnp.dir
+
+# All Build rule for target.
+CMakeFiles/pnp.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pnp.dir/build.make CMakeFiles/pnp.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pnp.dir/build.make CMakeFiles/pnp.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/star/RM_2/class_3/build/CMakeFiles --progress-num=9,10 "Built target pnp"
+.PHONY : CMakeFiles/pnp.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/pnp.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/star/RM_2/class_3/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/pnp.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/star/RM_2/class_3/build/CMakeFiles 0
+.PHONY : CMakeFiles/pnp.dir/rule
+
+# Convenience name for target.
+pnp: CMakeFiles/pnp.dir/rule
+.PHONY : pnp
+
+# clean rule for target.
+CMakeFiles/pnp.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pnp.dir/build.make CMakeFiles/pnp.dir/clean
+.PHONY : CMakeFiles/pnp.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/pnp_hw.dir
+
+# All Build rule for target.
+CMakeFiles/pnp_hw.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pnp_hw.dir/build.make CMakeFiles/pnp_hw.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pnp_hw.dir/build.make CMakeFiles/pnp_hw.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/star/RM_2/class_3/build/CMakeFiles --progress-num=11,12 "Built target pnp_hw"
+.PHONY : CMakeFiles/pnp_hw.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/pnp_hw.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/star/RM_2/class_3/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/pnp_hw.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/star/RM_2/class_3/build/CMakeFiles 0
+.PHONY : CMakeFiles/pnp_hw.dir/rule
+
+# Convenience name for target.
+pnp_hw: CMakeFiles/pnp_hw.dir/rule
+.PHONY : pnp_hw
+
+# clean rule for target.
+CMakeFiles/pnp_hw.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pnp_hw.dir/build.make CMakeFiles/pnp_hw.dir/clean
+.PHONY : CMakeFiles/pnp_hw.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

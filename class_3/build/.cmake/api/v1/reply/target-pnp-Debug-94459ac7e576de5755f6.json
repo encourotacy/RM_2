@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "detect_armor"
+			"path" : "pnp"
 		}
 	],
 	"backtrace" : 1,
@@ -26,13 +26,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 14,
+				"line" : 16,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 21,
+				"line" : 25,
 				"parent" : 0
 			},
 			{
@@ -85,7 +85,7 @@
 			]
 		}
 	],
-	"id" : "detect_armor::@6890427a1f51a3e7e1df",
+	"id" : "pnp::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -371,8 +371,8 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "detect_armor",
-	"nameOnDisk" : "detect_armor",
+	"name" : "pnp",
+	"nameOnDisk" : "pnp",
 	"paths" : 
 	{
 		"build" : ".",
@@ -393,7 +393,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "detect_armor.cpp",
+			"path" : "pnp.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

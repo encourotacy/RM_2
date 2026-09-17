@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "show_img"
+			"path" : "pnp_hw"
 		}
 	],
 	"backtrace" : 1,
@@ -26,13 +26,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 11,
+				"line" : 17,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 18,
+				"line" : 26,
 				"parent" : 0
 			},
 			{
@@ -85,7 +85,7 @@
 			]
 		}
 	],
-	"id" : "show_img::@6890427a1f51a3e7e1df",
+	"id" : "pnp_hw::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -371,8 +371,8 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "show_img",
-	"nameOnDisk" : "show_img",
+	"name" : "pnp_hw",
+	"nameOnDisk" : "pnp_hw",
 	"paths" : 
 	{
 		"build" : ".",
@@ -393,7 +393,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "show_img.cpp",
+			"path" : "pnp_hw.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

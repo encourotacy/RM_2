@@ -194,6 +194,32 @@ detect_armor_hw/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/detect_armor_hw.dir/build.make CMakeFiles/detect_armor_hw.dir/build
 .PHONY : detect_armor_hw/fast
 
+#=============================================================================
+# Target rules for targets named pnp
+
+# Build rule for target.
+pnp: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pnp
+.PHONY : pnp
+
+# fast build rule for target.
+pnp/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pnp.dir/build.make CMakeFiles/pnp.dir/build
+.PHONY : pnp/fast
+
+#=============================================================================
+# Target rules for targets named pnp_hw
+
+# Build rule for target.
+pnp_hw: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pnp_hw
+.PHONY : pnp_hw
+
+# fast build rule for target.
+pnp_hw/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pnp_hw.dir/build.make CMakeFiles/pnp_hw.dir/build
+.PHONY : pnp_hw/fast
+
 detect_armor.o: detect_armor.cpp.o
 .PHONY : detect_armor.o
 
@@ -290,6 +316,54 @@ main_hw.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_hw.dir/build.make CMakeFiles/main_hw.dir/main_hw.cpp.s
 .PHONY : main_hw.cpp.s
 
+pnp.o: pnp.cpp.o
+.PHONY : pnp.o
+
+# target to build an object file
+pnp.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pnp.dir/build.make CMakeFiles/pnp.dir/pnp.cpp.o
+.PHONY : pnp.cpp.o
+
+pnp.i: pnp.cpp.i
+.PHONY : pnp.i
+
+# target to preprocess a source file
+pnp.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pnp.dir/build.make CMakeFiles/pnp.dir/pnp.cpp.i
+.PHONY : pnp.cpp.i
+
+pnp.s: pnp.cpp.s
+.PHONY : pnp.s
+
+# target to generate assembly for a file
+pnp.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pnp.dir/build.make CMakeFiles/pnp.dir/pnp.cpp.s
+.PHONY : pnp.cpp.s
+
+pnp_hw.o: pnp_hw.cpp.o
+.PHONY : pnp_hw.o
+
+# target to build an object file
+pnp_hw.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pnp_hw.dir/build.make CMakeFiles/pnp_hw.dir/pnp_hw.cpp.o
+.PHONY : pnp_hw.cpp.o
+
+pnp_hw.i: pnp_hw.cpp.i
+.PHONY : pnp_hw.i
+
+# target to preprocess a source file
+pnp_hw.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pnp_hw.dir/build.make CMakeFiles/pnp_hw.dir/pnp_hw.cpp.i
+.PHONY : pnp_hw.cpp.i
+
+pnp_hw.s: pnp_hw.cpp.s
+.PHONY : pnp_hw.s
+
+# target to generate assembly for a file
+pnp_hw.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pnp_hw.dir/build.make CMakeFiles/pnp_hw.dir/pnp_hw.cpp.s
+.PHONY : pnp_hw.cpp.s
+
 show_img.o: show_img.cpp.o
 .PHONY : show_img.o
 
@@ -350,6 +424,8 @@ help:
 	@echo "... detect_armor_hw"
 	@echo "... main"
 	@echo "... main_hw"
+	@echo "... pnp"
+	@echo "... pnp_hw"
 	@echo "... show_img"
 	@echo "... show_img_hw"
 	@echo "... detect_armor.o"
@@ -364,6 +440,12 @@ help:
 	@echo "... main_hw.o"
 	@echo "... main_hw.i"
 	@echo "... main_hw.s"
+	@echo "... pnp.o"
+	@echo "... pnp.i"
+	@echo "... pnp.s"
+	@echo "... pnp_hw.o"
+	@echo "... pnp_hw.i"
+	@echo "... pnp_hw.s"
 	@echo "... show_img.o"
 	@echo "... show_img.i"
 	@echo "... show_img.s"

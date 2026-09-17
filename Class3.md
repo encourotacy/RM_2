@@ -21,6 +21,14 @@
   - [6. 画在原图上核对](#sec-detect-draw)
   - [7. 课堂作业 `detect_armor_hw`](#sec-detect-hw)
   - [8. 参考答案](#sec-detect-hw-answers)
+- [七、用 `solvePnP` 求距离](#sec-pnp)
+  - [1. 识别之后还缺什么](#sec-pnp-why)
+  - [2. 投影方程：四个点如何定住一块板](#sec-pnp-math)
+  - [3. \(R\) 和 \(t\) 是什么](#sec-pnp-rt)
+  - [4. `cv::solvePnP` 怎么调用](#sec-pnp-api)
+  - [5. 3D 模型点（必须和 2D 四点顺序一致）](#sec-pnp-3d)
+  - [6. 课堂任务 Task 01～03](#sec-pnp-hw)
+  - [7. 参考答案](#sec-pnp-answers)
 
 <a id="sec-overview"></a>
 ## 一、课程概述
@@ -42,6 +50,7 @@
 | `show_img.cpp` / `main.cpp` | 完整示例 |
 | `show_img_hw.cpp` / `main_hw.cpp` | 课堂作业，按 Task 现场填写 |
 | `detect_armor.cpp` / `detect_armor_hw.cpp` | 装甲板识别示例 / 几何过滤+配对作业 |
+| `pnp.cpp` / `pnp_hw.cpp` | `solvePnP` 求距离示例 / 作业 |
 | `include/detector.hpp` | 识别阈值、`get_color`、画结果 |
 | `include/armor.hpp` | 灯条 / 装甲板的几何定义 |
 | `include/img_tools.hpp` | 画点、画轮廓的小工具 |
@@ -60,6 +69,8 @@ build/detect_armor
 build/show_img_hw
 build/main_hw
 build/detect_armor_hw
+build/pnp
+build/pnp_hw
 ```
 
 安装 OpenCV：`sudo apt install libopencv-dev`。头文件统一写：
@@ -416,13 +427,15 @@ constexpr double kMaxRectangularErrorDeg = 25;  // 两灯条与连线是否接�
 
 名字里带 `Deg` 的是**度**（45、25）；`lightbar.angle_error`、`armor.rectangular_error` 是**弧度**。比较时写成 `kMaxAngleErrorDeg * CV_PI / 180.0`，把度换成弧度。
 
-```
-像灯条                不像灯条
-  ██                  ████████   横条：偏角太大
-  ██                  ██         太短：噪声 / 太远
-  ██                  ████       太胖：数字、反光块
-  ██
-```
+真灯条看起来是一根**竖着的细长亮条**。二值图里别的亮块长得不是这样，用三条几何条件丢掉：
+
+| 二值图上长什么样 | 为什么不是灯条 | 哪条规则挡掉 |
+|------------------|----------------|--------------|
+| 横着的一条亮带 | 灯条应当接近竖直 | 偏角 ≥ 45° |
+| 只有几个像素的小亮点 | 太远或只是噪声 | 长度 ≤ 15 像素 |
+| 接近正方形的亮块 | 多半是数字、反光 | 长宽比不在 1.5～20 |
+
+三项**同时**成立才留下，少一条就 `continue`。
 
 ```cpp
 if (!check_lightbar(lightbar)) continue;
@@ -616,4 +629,223 @@ if (ratio_ok && side_ok && rect_ok) {
 }
 ```
 
-PnP 位姿还不做，那是下一课：用这里得到的四个角点和板型，把「图像里的板」变成「空间里的位置」。
+识别到这里，已经有颜色、中心和四个角点。下一步用 `solvePnP` 把这四个像素点变成空间里的距离和朝向，见第七节。
+
+<a id="sec-pnp"></a>
+## 七、用 `solvePnP` 求距离
+
+自瞄要打的不是「图像里的绿框」，而是几米外那块真实装甲板。识别给出的是像素坐标；**PnP（Perspective-n-Point）**的意思是：已知 \(n\) 个点的 3D 坐标和它们在图像上的 2D 投影，反推相机（或目标）的位姿。装甲板刚好有 4 个角点，所以 \(n = 4\)。
+
+```
+detect_armor → 左上 / 右上 / 右下 / 左下 四个角点 + 板型
+        │
+        ▼
+object_points（3D 真实尺寸）+ img_points（像素）+ 内参
+        │
+        ▼
+cv::solvePnP(...)  →  rvec, tvec
+        │
+        ▼
+距离 ≈ ||tvec|| ，朝向从 rvec 里拆
+```
+
+<a id="sec-pnp-why"></a>
+### 1. 识别之后还缺什么
+
+相机标定得到的内参矩阵 \(K\) 只能告诉你：这个像素对应空间里的**一条射线**。同一条射线上，1 米处的小装甲板和 10 米处的大装甲板会投到同一个像素——有方向，没有距离。
+
+PnP 需要三样东西一起用：
+
+| 输入 | 从哪来 | 本课对应 |
+|------|--------|----------|
+| 相机内参 \(K\)、畸变 | 标定 | `pnp.cpp` 里先写一组示例；实战换成自己的标定值 |
+| 装甲板真实 3D 尺寸 | 规则书 | 小装甲宽 13.5 cm，大装甲宽 23 cm，灯条长 5.6 cm |
+| 图像上的 4 个 2D 点 | 识别 | `armor.left.top`、`right.top`、`right.bottom`、`left.bottom` |
+
+没有真实尺寸，四个像素点可以对应任意远近的板；没有内参，像素和毫米对不上。三样缺一，距离都解不准。
+
+<a id="sec-pnp-math"></a>
+### 2. 投影方程：四个点如何定住一块板
+
+把装甲板上的一个 3D 点写成 \(P^w = (X, Y, Z)\)，它投到图像上是像素 \(p = (u, v)\)。针孔相机满足：
+
+\[
+s \begin{bmatrix} u \\ v \\ 1 \end{bmatrix}
+= K \, [R \mid t] \, \begin{bmatrix} X \\ Y \\ Z \\ 1 \end{bmatrix}
+\]
+
+拆开看两步：
+
+1. \([R \mid t]\)：先把点从**装甲板坐标系**变到**相机坐标系**（转一下、再平移）
+2. \(K\)：再把相机坐标变成像素。\(s\) 是一个比例因子（深度），每个点都可以不同
+
+PnP 的已知是 \(K\)、\(P^w\)、\((u,v)\)，未知是 \(R\) 和 \(t\)。每个点对提供两个约束（\(u\) 和 \(v\)）。旋转 3 个数、平移 3 个数，一共 6 个未知数，所以理论上 **\(n \geq 3\)** 就能解。装甲板有 4 个角点，约束比未知数多，属于超定问题，噪声下更稳。
+
+内参 \(K\) 长这样（9 个数按行排成 \(3\times3\)）：
+
+\[
+K = \begin{bmatrix} f_x & 0 & c_x \\ 0 & f_y & c_y \\ 0 & 0 & 1 \end{bmatrix}
+\]
+
+| 量 | 含义 |
+|----|------|
+| \(f_x, f_y\) | 焦距，单位是像素 |
+| \(c_x, c_y\) | 主点，一般在图像中心附近 |
+
+\(f_x\) 标大了，同样大的板会被当成「更远」；课堂把 `fx` 改大，算出来的距离也会变大。畸变系数把镜头的桶形/枕形变形补掉，近距离、画面边缘时更明显。
+
+<a id="sec-pnp-rt"></a>
+### 3. \(R\) 和 \(t\) 是什么
+
+同一个点在装甲板坐标系和相机坐标系里数字不同。PnP 求出的就是「物体 → 相机」：
+
+\[
+P^c = R \cdot P^w + t
+\]
+
+- \(t = (t_x, t_y, t_z)^\top\)：装甲板原点（板中心）在相机坐标系里的位置。相机朝前一般是 \(+Z\)，所以 \(t_z\) 大约就是「有多远」。完整距离 \(d = \|t\| = \sqrt{t_x^2 + t_y^2 + t_z^2}\)，代码里 `cv::norm(tvec)`
+- \(R\)：\(3\times3\) 旋转矩阵，描述板相对相机转了多少。`solvePnP` 先输出的是旋转向量 `rvec`（轴的方向 × 转过的角度），要用 `cv::Rodrigues(rvec, R)` 变成矩阵，再拆成 yaw / pitch / roll
+
+合在一起是 6 自由度位姿：3 个平移 + 3 个旋转，自瞄打的就是这个。
+
+`pnp.cpp` 图上的红 / 绿 / 蓝三根轴，就是把物体坐标的 X / Y / Z 按解出的 \(R,t\) 投回图像。轴扎在板上、方向合理，说明位姿大致对；穿到背面或拧成一团，多半是四点顺序反了，或大小板型选错了。
+
+平面物体用 `SOLVEPNP_IPPE` 时，数学上可能出现**两组解**（板的正反两面都能投出相近的四个点）。正对着时 yaw 也不敏感：四个角点左右动一点点，算出来的左右转角会跳。工程里会再筛「背对相机」的解，并用重投影误差微调 yaw——那是后话。本课先保证 \(R,t\) 能求出来。
+
+相机系再变到云台、世界，需要安装外参和 IMU，本课不做。
+
+<a id="sec-pnp-api"></a>
+### 4. `cv::solvePnP` 怎么调用
+
+```cpp
+bool cv::solvePnP(
+    objectPoints,   // 3D 模型点（物体坐标系，单位米）
+    imagePoints,    // 对应的 2D 像素点
+    cameraMatrix,   // 内参 K
+    distCoeffs,     // 畸变系数
+    rvec,           // 输出：旋转向量（3×1）
+    tvec,           // 输出：平移向量（3×1）
+    useExtrinsicGuess,  // 可省略，默认 false
+    flags);         // 可省略；工程里平面装甲板常用 SOLVEPNP_IPPE
+```
+
+| 参数 | 本课怎么填 | 含义 |
+|------|------------|------|
+| `objectPoints` | 装甲板 4 个 3D 点 | 以装甲板中心为原点，单位**米** |
+| `imagePoints` | 四个灯条端点的像素坐标 | 顺序必须和 3D 点一一对应 |
+| `cameraMatrix` | \(3\times3\) 的 \(K\) | `[fx, 0, cx; 0, fy, cy; 0, 0, 1]` |
+| `distCoeffs` | 一般 5 个数 | 标定得到的畸变 |
+| `rvec` | 输出 | **旋转向量**，不是旋转矩阵 |
+| `tvec` | 输出 | 平移，相机坐标系，单位米 |
+
+本课作业先把前六个参数填对即可。装甲板是平面，工程里常再加 `false, cv::SOLVEPNP_IPPE`。
+
+| 方法 | 点数 | 特点 |
+|------|------|------|
+| `SOLVEPNP_ITERATIVE` | ≥4 | 默认；迭代优化，通用 |
+| `SOLVEPNP_EPNP` | ≥4 | 快，适合点数多 |
+| `SOLVEPNP_P3P` / `AP3P` | =3 | 最多几组解，要用第 4 点验证 |
+| **`SOLVEPNP_IPPE`** | ≥4 | **专为平面设计**，装甲板推荐 |
+
+`rvec` 要拿旋转矩阵时：
+
+```cpp
+cv::Mat R;
+cv::Rodrigues(rvec, R);   // 3×1 向量 → 3×3 矩阵
+```
+
+<a id="sec-pnp-3d"></a>
+### 5. 3D 模型点（必须和 2D 四点顺序一致）
+
+四个角点在「装甲板中心为原点」的物体坐标系里取值，单位米。课堂采用同济习题的定义：**装甲板就在 \(XY\) 平面上（\(Z = 0\)）**。
+
+```
+        X →  （右为正）
+   左上              右上
+  (-W/2, -L/2)    (+W/2, -L/2)
+Y ↓
+   左下              右下
+  (-W/2, +L/2)    (+W/2, +L/2)
+```
+
+- `ARMOR_WIDTH`：两灯条间距。小装甲 `0.135` m，大装甲 `0.230` m
+- `LIGHTBAR_LENGTH`：灯条长度，`0.056` m
+- 顶部 \(Y\) 为负、底部 \(Y\) 为正，和「从上到下」一致
+
+本课 `Armor` 构造时四个角就是 `left.top`、`right.top`、`right.bottom`、`left.bottom`，和上面四点一一对应。顺序写反，解出来的位姿是错的。
+
+<a id="sec-pnp-hw"></a>
+### 6. 课堂任务 Task 01～03
+
+内参 `camera_matrix`、`dist_coeffs` 和识别得到的 `armor` 已经写在 `pnp_hw.cpp` 里。对照 `pnp.cpp`，按 Task 填三处：3D 点、像素点、调用 `solvePnP`。
+
+| Task | 填什么 | 注意 |
+|------|--------|------|
+| 01 | `object_points` 四个 3D 点 | 单位米；左上 → 右上 → 右下 → 左下 |
+| 02 | `img_points` 四个像素点 | 用 `armor` 上对应的灯条端点，顺序和 Task 01 一致 |
+| 03 | `cv::solvePnP(...)` 的参数 | 3D 点、像素点、内参、畸变、`rvec`、`tvec` |
+
+```cpp
+// #### Task 01 ################################################
+// 填写 object_points（物体坐标系，装甲板中心为原点，Z = 0）
+static const std::vector<cv::Point3f> object_points{
+    {                ,                     , 0}, 
+    {                ,                     , 0}, 
+    {                ,                     , 0}, 
+    {                ,                     , 0}
+};
+
+// #### Task 02 ################################################
+// img_points 是照片上装甲板 4 个点的像素坐标
+std::vector<cv::Point2f> img_points{
+    // 与 Task 01 同一顺序
+};
+
+// #### Task 03 ################################################
+cv::Mat rvec, tvec;
+// 调用 solvePnP，rvec / tvec 用来存输出
+cv::solvePnP( /* 在这里填写参数 */ );
+```
+
+```bash
+make -C build pnp_hw
+build/pnp_hw
+build/pnp_hw imgs/red_3.jpg
+```
+
+没填完时终端会提示还没调用 `solvePnP`。三题都填完，效果应和 `build/pnp` 一致：终端打印距离、`tvec`、`rvec`、yaw/pitch/roll，窗口 `pnp` 里画坐标轴。
+
+<a id="sec-pnp-answers"></a>
+### 7. 参考答案
+
+```cpp
+// Task 01
+static const std::vector<cv::Point3f> object_points{
+    {-ARMOR_WIDTH / 2, -LIGHTBAR_LENGTH / 2, 0}, 
+    { ARMOR_WIDTH / 2, -LIGHTBAR_LENGTH / 2, 0}, 
+    { ARMOR_WIDTH / 2,  LIGHTBAR_LENGTH / 2, 0}, 
+    {-ARMOR_WIDTH / 2,  LIGHTBAR_LENGTH / 2, 0} 
+};
+
+// Task 02
+std::vector<cv::Point2f> img_points{
+    armor.left.top,
+    armor.right.top,
+    armor.right.bottom,
+    armor.left.bottom
+};
+
+// Task 03
+cv::Mat rvec, tvec;
+cv::solvePnP(object_points, img_points, camera_matrix, dist_coeffs, rvec, tvec);
+```
+
+`ARMOR_WIDTH` / `LIGHTBAR_LENGTH` 用前面的米制尺寸；小装甲宽 0.135。四点顺序必须 Task 01 和 Task 02 对上：都是左上、右上、右下、左下。
+
+完整示例在 `pnp.cpp`：先 `detect_armor`，再按上面三步 `solvePnP`，终端打印距离，窗口 `pnp` 里画坐标轴。
+
+```bash
+make -C build pnp
+build/pnp
+build/pnp imgs/red_3.jpg
+```
