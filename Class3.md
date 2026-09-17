@@ -3,31 +3,31 @@
 ## 目录
 
 - [一、课程概述](#sec-overview)
-- [二、本课会用到的 OpenCV 函数](#sec-opencv)
+- [二、OpenCV 函数的运用](#sec-opencv)
   - [1. 读图、缩放、显示](#sec-imread)
   - [2. 色彩空间与转换码](#sec-cvtcolor)
   - [3. 通道分离 `cv::split`](#sec-split)
   - [4. 轮廓 `cv::findContours` / `cv::drawContours`](#sec-contours)
   - [5. 旋转矩形 `cv::minAreaRect`](#sec-minarearect)
-- [三、课堂演示](#sec-demo)
-- [四、参考答案](#sec-answers)
-- [五、和后续装甲板识别的衔接](#sec-next)
-- [六、装甲板识别](#sec-detect)
-  - [1. 整条流水线](#sec-detect-pipeline)
-  - [2. 灰度 → 二值 → 轮廓 → 旋转矩形](#sec-detect-front)
-  - [3. 几何过滤](#sec-detect-geom)
-  - [4. 灯条配对](#sec-detect-pair)
-  - [5. 数字分类](#sec-detect-digit)
-  - [6. 画在原图上核对](#sec-detect-draw)
-  - [7. 课堂作业 `detect_armor_hw`](#sec-detect-hw)
-  - [8. 参考答案](#sec-detect-hw-answers)
-- [七、用 `solvePnP` 求距离](#sec-pnp)
+  - [6. 课堂作业 `show_img_hw` / `main_hw`](#sec-demo)
+  - [7. 参考答案](#sec-answers)
+- [三、装甲板识别](#sec-detect)
+  - [1. OpenCV在装甲板识别的用途](#sec-next)
+  - [2. 整条流水线](#sec-detect-pipeline)
+  - [3. 灰度 → 二值 → 轮廓 → 旋转矩形](#sec-detect-front)
+  - [4. 几何过滤](#sec-detect-geom)
+  - [5. 灯条配对](#sec-detect-pair)
+  - [6. 数字分类](#sec-detect-digit)
+  - [7. 原图核对](#sec-detect-draw)
+  - [8. 课堂作业 `detect_armor_hw`](#sec-detect-hw)
+  - [9. 参考答案](#sec-detect-hw-answers)
+- [四、用 `solvePnP` 求距离](#sec-pnp)
   - [1. 识别之后还缺什么](#sec-pnp-why)
   - [2. 投影方程：四个点如何定住一块板](#sec-pnp-math)
   - [3. \(R\) 和 \(t\) 是什么](#sec-pnp-rt)
   - [4. `cv::solvePnP` 怎么调用](#sec-pnp-api)
   - [5. 3D 模型点（必须和 2D 四点顺序一致）](#sec-pnp-3d)
-  - [6. 课堂任务 Task 01～03](#sec-pnp-hw)
+  - [6. 课堂作业 Task 01～03](#sec-pnp-hw)
   - [7. 参考答案](#sec-pnp-answers)
 
 <a id="sec-overview"></a>
@@ -84,7 +84,7 @@ build/pnp_hw
 ---
 
 <a id="sec-opencv"></a>
-## 二、本课会用到的 OpenCV 函数
+## 二、OpenCV 函数的运用
 
 <a id="sec-imread"></a>
 ### 1. 读图、缩放、显示
@@ -226,12 +226,10 @@ rotated_rects.emplace_back(rotated_rect);   // 往末尾追加
 cv::Mat drawcontours = bgr_img.clone();
 ```
 
----
-
 <a id="sec-demo"></a>
-## 三、课堂演示
+### 6. 课堂作业 `show_img_hw` / `main_hw`
 
-展示 `show_img.cpp` / `main.cpp`实现的功能。
+先跑完整示例，再按 Task 填空：
 
 ```bash
 make -C build 
@@ -256,12 +254,8 @@ build/main        # 应弹出 gray / binary / drawcontours / drawrect
 
 > 把路径改成 `imgs/blue_4.jpg`，看 blue / red 谁更亮。把阈值 `130` 改成 `80` 和 `200`，看 `binary` 和轮廓数量怎么变。
 
-装甲板识别先看 `build/detect_armor`，再按同样的 Task 模式填 `detect_armor_hw.cpp`（第六节）。
-
----
-
 <a id="sec-answers"></a>
-## 四、参考答案
+### 7. 参考答案
 
 `show_img_hw.cpp`：
 
@@ -318,11 +312,11 @@ cv::resize(drawrect, drawrect, {}, 0.5, 0.5);
 cv::imshow("drawrect", drawrect);
 ```
 
-
----
+<a id="sec-detect"></a>
+## 三、装甲板识别
 
 <a id="sec-next"></a>
-## 五、与装甲板识别的衔接
+### 1. OpenCV在装甲板识别的用途
 
 | 本课函数 | 后续用途 |
 |----------|------------|
@@ -332,13 +326,10 @@ cv::imshow("drawrect", drawrect);
 | `findContours` | 抠出灯条轮廓 |
 | `minAreaRect` | 拟合灯条，再算长宽比、角度 |
 
-以上是借助OpenCV对图像进行初步处理，而完整自瞄还会做几何过滤、灯条配对、数字分类等，即要回答：哪些矩形是灯条、哪两根构成一块板、板上写的是几。
-
-<a id="sec-detect"></a>
-## 六、装甲板识别
+以上是借助 OpenCV 对图像进行初步处理，而完整自瞄还会做几何过滤、灯条配对、数字分类等，即要回答：哪些矩形是灯条、哪两根构成一块板、板上写的是几。
 
 <a id="sec-detect-pipeline"></a>
-### 1. 整条流水线
+### 2. 整条流水线
 
 
 ```
@@ -382,7 +373,7 @@ build/detect_armor imgs/red_2.jpg
 会弹出 `binary` 和 `detection`。终端会打印灯条数、装甲板数、颜色、中心和四个角点。
 
 <a id="sec-detect-front"></a>
-### 2. 灰度 → 二值 → 轮廓 → 旋转矩形
+### 3. 灰度 → 二值 → 轮廓 → 旋转矩形
 
 和 `main.cpp` 完全一样：灯条是画面里最亮的东西，灰度后用阈值切开，白色连通域变成轮廓，再用旋转矩形包住。
 
@@ -406,7 +397,7 @@ Lightbar lightbar(cv::minAreaRect(contour), id);
 | `{top, bottom}` | 灯条两端 | 配对时拼出装甲板四角 |
 
 <a id="sec-detect-geom"></a>
-### 3. 几何过滤
+### 4. 几何过滤
 
 二值图里什么亮都会出轮廓：反光、白色数字、地面高光、横着的灯带。几何过滤要做的事只有一句：**单看这一根，它长得像不像灯条。**
 
@@ -464,7 +455,7 @@ if (blue_sum > red_sum  * 1.2) color = blue;
 过完这一步，列表里剩下的才叫灯条：有形状、有红/蓝。假灯条会在这里被扔掉，后面配对才不会被噪声带偏。
 
 <a id="sec-detect-pair"></a>
-### 4. 灯条配对
+### 5. 灯条配对
 
 一块装甲板不是一根灯条，而是左右两根**同色**灯条夹着一块数字板：
 
@@ -513,7 +504,7 @@ A —— B —— C      配出 (A,B) 和 (B,C)，B 用了两次
 这一步结束，得到的是装甲板**候选**：颜色、中心、四个角点都有了。几何上像板，不等于板上真有数字——那是下一步的事。
 
 <a id="sec-detect-digit"></a>
-### 5. 数字分类
+### 6. 数字分类
 
 几何过滤和配对只看灯条形状。场上两根碰巧平行的灯、广告牌、误配的灯条，仍可能画出一个很像装甲板的绿框。自瞄还要知道**这是谁**：1 号英雄、2 号工程、3/4/5 步兵、哨兵、前哨站、基地，或者根本不是板。
 
@@ -553,7 +544,7 @@ cv::warpPerspective(gray_img, pattern, M, {W, H});
 
 
 <a id="sec-detect-draw"></a>
-### 6. 画在原图上核对
+### 7. 原图核对
 
 `draw_result` 在原图副本上画：
 
@@ -565,7 +556,7 @@ cv::warpPerspective(gray_img, pattern, M, {W, H});
 把路径换成 `imgs/red_2.jpg`，看颜色会不会判成 `red`。把阈值从 `130` 改成 `80` 和 `200`，看灯条数和装甲板数怎么变——和课堂改 `binary` 是同一件事，只是后面多了过滤和配对。
 
 <a id="sec-detect-hw"></a>
-### 7. 课堂作业 `detect_armor_hw`
+### 8. 课堂任务 `detect_armor_hw`
 
 对照 `detect_armor.cpp`，在 `detect_armor_hw.cpp` 里按 Task 把几何过滤和灯条配对填上。灰度 → 二值 → 轮廓已经写好，`get_color`、去重、画图也已经给好。阈值就是上面 `include/detector.hpp` 里那几行（`kMaxAngleErrorDeg` 等），作业已经 include 了这个头文件，直接写这些名字。**不要直接调用 `check_lightbar` / `check_armor`**，把判断条件写出来。
 
@@ -591,7 +582,7 @@ build/detect_armor_hw imgs/red_2.jpg
 > 只填几何、不填颜色，红图往往还能配上（默认色是红），蓝图会配错。把 `kMinLightbarLength` 改成 `80`，看远处细灯条会不会被滤掉。
 
 <a id="sec-detect-hw-answers"></a>
-### 8. 参考答案
+### 9. 参考答案
 
 `detect_armor_hw.cpp`：
 
@@ -629,10 +620,10 @@ if (ratio_ok && side_ok && rect_ok) {
 }
 ```
 
-识别到这里，已经有颜色、中心和四个角点。下一步用 `solvePnP` 把这四个像素点变成空间里的距离和朝向，见第七节。
+识别到这里，已经有颜色、中心和四个角点。下一步用 `solvePnP` 把这四个像素点变成空间里的距离和朝向，见第四节。
 
 <a id="sec-pnp"></a>
-## 七、用 `solvePnP` 求距离
+## 四、用 `solvePnP` 求距离
 
 自瞄要打的不是「图像里的绿框」，而是几米外那块真实装甲板。识别给出的是像素坐标；**PnP（Perspective-n-Point）**的意思是：已知 \(n\) 个点的 3D 坐标和它们在图像上的 2D 投影，反推相机（或目标）的位姿。装甲板刚好有 4 个角点，所以 \(n = 4\)。
 
@@ -775,7 +766,7 @@ Y ↓
 本课 `Armor` 构造时四个角就是 `left.top`、`right.top`、`right.bottom`、`left.bottom`，和上面四点一一对应。顺序写反，解出来的位姿是错的。
 
 <a id="sec-pnp-hw"></a>
-### 6. 课堂任务 Task 01～03
+### 6. 课堂作业 Task 01～03
 
 内参 `camera_matrix`、`dist_coeffs` 和识别得到的 `armor` 已经写在 `pnp_hw.cpp` 里。对照 `pnp.cpp`，按 Task 填三处：3D 点、像素点、调用 `solvePnP`。
 
