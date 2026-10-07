@@ -10,7 +10,6 @@
   - [4. 轮廓 `cv::findContours` / `cv::drawContours`](#sec-contours)
   - [5. 旋转矩形 `cv::minAreaRect`](#sec-minarearect)
   - [6. 课堂作业 `show_img_hw` / `main_hw`](#sec-demo)
-  - [7. 参考答案](#sec-answers)
 - [三、装甲板识别](#sec-detect)
   - [1. OpenCV在装甲板识别的用途](#sec-next)
   - [2. 整条流水线](#sec-detect-pipeline)
@@ -20,15 +19,13 @@
   - [6. 数字分类](#sec-detect-digit)
   - [7. 原图核对](#sec-detect-draw)
   - [8. 课堂作业 `detect_armor_hw`](#sec-detect-hw)
-  - [9. 参考答案](#sec-detect-hw-answers)
 - [四、用 `solvePnP` 求距离](#sec-pnp)
   - [1. 识别之后还缺什么](#sec-pnp-why)
   - [2. 投影方程：四个点如何定住一块板](#sec-pnp-math)
   - [3. \(R\) 和 \(t\) 是什么](#sec-pnp-rt)
   - [4. `cv::solvePnP` 怎么调用](#sec-pnp-api)
   - [5. 3D 模型点（必须和 2D 四点顺序一致）](#sec-pnp-3d)
-  - [6. 课堂作业 Task 01～03](#sec-pnp-hw)
-  - [7. 参考答案](#sec-pnp-answers)
+  - [6. 课后作业 Task 01～03](#sec-pnp-hw)
 
 <a id="sec-overview"></a>
 ## 一、课程概述
@@ -229,7 +226,7 @@ cv::Mat drawcontours = bgr_img.clone();
 <a id="sec-demo"></a>
 ### 6. 课堂作业 `show_img_hw` / `main_hw`
 
-先跑完整示例，再按 Task 填空：
+完整示例演示：
 
 ```bash
 make -C build 
@@ -253,64 +250,6 @@ build/main        # 应弹出 gray / binary / drawcontours / drawrect
 灰度、二值显示完后记得 `resize(..., 2, 2)` 恢复原大小，否则后面找轮廓会和原图对不上。
 
 > 把路径改成 `imgs/blue_4.jpg`，看 blue / red 谁更亮。把阈值 `130` 改成 `80` 和 `200`，看 `binary` 和轮廓数量怎么变。
-
-<a id="sec-answers"></a>
-### 7. 参考答案
-
-`show_img_hw.cpp`：
-
-```cpp
-bgr_img = cv::imread("imgs/red_3.jpg");
-cv::split(bgr_img, channels);
-blue = channels.at(0);
-green = channels.at(1);
-red = channels.at(2);
-cv::resize(blue, blue, {}, 0.5, 0.5);
-cv::resize(green, green, {}, 0.5, 0.5);
-cv::resize(red, red, {}, 0.5, 0.5);
-cv::imshow("blue", blue);
-cv::imshow("green", green);
-cv::imshow("red", red);
-```
-
-`main_hw.cpp`：
-
-```cpp
-// Task1
-cv::cvtColor(bgr_img, gray_img, cv::COLOR_BGR2GRAY);
-cv::resize(gray_img, gray_img, {}, 0.5, 0.5);
-cv::imshow("gray", gray_img);
-cv::resize(gray_img, gray_img, {}, 2, 2);
-
-// Task2
-cv::threshold(gray_img, binary_img, 130, 255, cv::THRESH_BINARY);
-cv::resize(binary_img, binary_img, {}, 0.5, 0.5);
-cv::imshow("binary", binary_img);
-cv::resize(binary_img, binary_img, {}, 2, 2);
-
-// Task3
-cv::findContours(binary_img, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_NONE);
-
-// Task4（写在已有的 for 循环后面）
-cv::drawContours(drawcontours, contours, {}, {0, 0, 255}, 5);
-cv::resize(drawcontours, drawcontours, {}, 0.5, 0.5);
-cv::imshow("drawcontours", drawcontours);
-
-// Task5
-for (const auto & contour : contours) {          // 作业里已有
-    auto rotated_rect = cv::minAreaRect(contour);
-    rotated_rects.emplace_back(rotated_rect);
-}
-
-// Task6
-for (const auto & rotated_rect : rotated_rects) { // 作业里已有
-    std::vector<cv::Point2f> points(4);           // 作业里已有
-    rotated_rect.points(points.data());
-    tools::draw_points(drawrect, points);         // 作业里已有
-}
-cv::resize(drawrect, drawrect, {}, 0.5, 0.5);
-cv::imshow("drawrect", drawrect);
-```
 
 <a id="sec-detect"></a>
 ## 三、装甲板识别
@@ -558,7 +497,7 @@ cv::warpPerspective(gray_img, pattern, M, {W, H});
 <a id="sec-detect-hw"></a>
 ### 8. 课堂任务 `detect_armor_hw`
 
-对照 `detect_armor.cpp`，在 `detect_armor_hw.cpp` 里按 Task 把几何过滤和灯条配对填上。灰度 → 二值 → 轮廓已经写好，`get_color`、去重、画图也已经给好。阈值就是上面 `include/detector.hpp` 里那几行（`kMaxAngleErrorDeg` 等），作业已经 include 了这个头文件，直接写这些名字。**不要直接调用 `check_lightbar` / `check_armor`**，把判断条件写出来。
+在 `detect_armor_hw.cpp` 里按 Task 把几何过滤和灯条配对填上。灰度 → 二值 → 轮廓已经写好，`get_color`、去重、画图也已经给好。阈值就是上面 `include/detector.hpp` 里那几行（`kMaxAngleErrorDeg` 等），作业已经 include 了这个头文件，直接写这些名字。
 
 ```bash
 make -C build detect_armor_hw
@@ -580,45 +519,6 @@ build/detect_armor_hw imgs/red_2.jpg
 `kMaxAngleErrorDeg`、`kMaxRectangularErrorDeg` 单位是**度**，`lightbar.angle_error` 和 `armor.rectangular_error` 是**弧度**，比较时要乘 `CV_PI / 180.0`。
 
 > 只填几何、不填颜色，红图往往还能配上（默认色是红），蓝图会配错。把 `kMinLightbarLength` 改成 `80`，看远处细灯条会不会被滤掉。
-
-<a id="sec-detect-hw-answers"></a>
-### 9. 参考答案
-
-`detect_armor_hw.cpp`：
-
-```cpp
-// Task1
-bool angle_ok = lightbar.angle_error < kMaxAngleErrorDeg * CV_PI / 180.0;
-bool ratio_ok =
-    lightbar.ratio > kMinLightbarRatio && lightbar.ratio < kMaxLightbarRatio;
-bool length_ok = lightbar.length > kMinLightbarLength;
-
-// Task2
-if (!(angle_ok && ratio_ok && length_ok)) {
-    continue;
-}
-
-// Task3
-if (!get_color(bgr_img, contour, lightbar.color)) {
-    continue;
-}
-
-// Task4
-if (result.lightbars[i].color != result.lightbars[j].color) {
-    continue;
-}
-
-// Task5
-Armor armor(result.lightbars[i], result.lightbars[j]);
-
-// Task6
-bool ratio_ok = armor.ratio > kMinArmorRatio && armor.ratio < kMaxArmorRatio;
-bool side_ok = armor.side_ratio < kMaxSideRatio;
-bool rect_ok = armor.rectangular_error < kMaxRectangularErrorDeg * CV_PI / 180.0;
-if (ratio_ok && side_ok && rect_ok) {
-    result.armors.emplace_back(armor);
-}
-```
 
 识别到这里，已经有颜色、中心和四个角点。下一步用 `solvePnP` 把这四个像素点变成空间里的距离和朝向，见第四节。
 
@@ -766,9 +666,9 @@ Y ↓
 本课 `Armor` 构造时四个角就是 `left.top`、`right.top`、`right.bottom`、`left.bottom`，和上面四点一一对应。顺序写反，解出来的位姿是错的。
 
 <a id="sec-pnp-hw"></a>
-### 6. 课堂作业 Task 01～03
+### 6. 课后作业 Task 01～03
 
-内参 `camera_matrix`、`dist_coeffs` 和识别得到的 `armor` 已经写在 `pnp_hw.cpp` 里。对照 `pnp.cpp`，按 Task 填三处：3D 点、像素点、调用 `solvePnP`。
+内参 `camera_matrix`、`dist_coeffs` 和识别得到的 `armor` 已经写在 `pnp_hw.cpp` 里。按 Task 填三处：3D 点、像素点、调用 `solvePnP`。
 
 | Task | 填什么 | 注意 |
 |------|--------|------|
@@ -804,39 +704,4 @@ build/pnp_hw
 build/pnp_hw imgs/red_3.jpg
 ```
 
-没填完时终端会提示还没调用 `solvePnP`。三题都填完，效果应和 `build/pnp` 一致：终端打印距离、`tvec`、`rvec`、yaw/pitch/roll，窗口 `pnp` 里画坐标轴。
-
-<a id="sec-pnp-answers"></a>
-### 7. 参考答案
-
-```cpp
-// Task 01
-static const std::vector<cv::Point3f> object_points{
-    {-ARMOR_WIDTH / 2, -LIGHTBAR_LENGTH / 2, 0}, 
-    { ARMOR_WIDTH / 2, -LIGHTBAR_LENGTH / 2, 0}, 
-    { ARMOR_WIDTH / 2,  LIGHTBAR_LENGTH / 2, 0}, 
-    {-ARMOR_WIDTH / 2,  LIGHTBAR_LENGTH / 2, 0} 
-};
-
-// Task 02
-std::vector<cv::Point2f> img_points{
-    armor.left.top,
-    armor.right.top,
-    armor.right.bottom,
-    armor.left.bottom
-};
-
-// Task 03
-cv::Mat rvec, tvec;
-cv::solvePnP(object_points, img_points, camera_matrix, dist_coeffs, rvec, tvec);
-```
-
-`ARMOR_WIDTH` / `LIGHTBAR_LENGTH` 用前面的米制尺寸；小装甲宽 0.135。四点顺序必须 Task 01 和 Task 02 对上：都是左上、右上、右下、左下。
-
-完整示例在 `pnp.cpp`：先 `detect_armor`，再按上面三步 `solvePnP`，终端打印距离，窗口 `pnp` 里画坐标轴。
-
-```bash
-make -C build pnp
-build/pnp
-build/pnp imgs/red_3.jpg
-```
+没填完时终端会提示还没调用 `solvePnP`。三题都填完，效果应为：终端打印距离、`tvec`、`rvec`、yaw/pitch/roll，窗口 `pnp` 里画坐标轴。
