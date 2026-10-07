@@ -30,53 +30,46 @@
 <a id="sec-overview"></a>
 ## 一、课程概述
 
-对视觉组来说，自瞄、打前哨站、打基地，都建立在「先把装甲板从图像里找出来」之上。今天不直接上完整工程，先把本课会用到的 OpenCV 函数练熟。
+对视觉组来说，自瞄、打前哨站、打基地，都建立在「先把装甲板从图像里找出来」之上。能否快速识别装甲板，能否对装甲板的识别结果进行精确的打击，是考验所在，亦是职责所在。
 
 ## <img src="./media/Class3/armor_2.jpg" alt="armor_2" style="zoom:15%;" />
 
 ```
-读图 imread
+ imread
    │
    ├─ show_img：split 拆 B/G/R，看三个通道
    │
    └─ main：BGR → 灰度 → 二值 → 轮廓 → 旋转矩形
 ```
 
-| 文件 | 作用 |
-|------|------|
-| `show_img.cpp` / `main.cpp` | 完整示例 |
-| `show_img_hw.cpp` / `main_hw.cpp` | 课堂作业，按 Task 现场填写 |
-| `detect_armor.cpp` / `detect_armor_hw.cpp` | 装甲板识别示例 / 几何过滤+配对作业 |
-| `pnp.cpp` / `pnp_hw.cpp` | `solvePnP` 求距离示例 / 作业 |
+
+
+| 作业（`lecture3/`） | 说明 |
+|--------------------------|------|
+| `show_img_hw.cpp` / `main_hw.cpp` | 通道分离、灰度到旋转矩形 |
+| `detect_armor_hw.cpp` | 几何过滤和灯条配对 |
+| `pnp_hw.cpp` | 求解距离 |
 | `include/detector.hpp` | 识别阈值、`get_color`、画结果 |
 | `include/armor.hpp` | 灯条 / 装甲板的几何定义 |
 | `include/img_tools.hpp` | 画点、画轮廓的小工具 |
 | `imgs/red_2.jpg` | 红方装甲板 |
-| `imgs/blue_4.jpg` | 蓝方装甲板（识别作业默认图） |
+| `imgs/blue_4.jpg` | 蓝方装甲板 |
 
-编译、运行必须在 `class_3/` 下，因为图片路径是相对路径：
+
+在 `lecture3/` 里编译作业，必须先进入这个目录：
 
 ```bash
-cd class_3
+cd lecture3
 cmake -B build
 make -C build
-build/show_img
-build/main
-build/detect_armor
 build/show_img_hw
 build/main_hw
 build/detect_armor_hw
-build/pnp
 build/pnp_hw
 ```
 
-安装 OpenCV：`sudo apt install libopencv-dev`。头文件统一写：
+第一次编译要先 `cmake -B build`。之后改了代码，在 `lecture3/` 下 `make -C build` 再运行即可。
 
-```cpp
-#include <opencv2/opencv.hpp>
-#include <vector>
-#include "img_tools.hpp"   // 画轮廓 / 旋转矩形时才需要
-```
 
 ---
 
@@ -84,25 +77,37 @@ build/pnp_hw
 ## 二、OpenCV 函数的运用
 
 <a id="sec-imread"></a>
+
+### 导入
+[OpenCV官网](https://opencv.org/)
+安装 OpenCV：`sudo apt install libopencv-dev`。
+查看版本 OpenCV：`apt show libopencv-dev`。
+
+
+之后我们如果在程序中想要使用OpenCV，就可以直接写头文件：
+
+```cpp
+#include <opencv2/opencv.hpp>
+```
+
 ### 1. 读图、缩放、显示
 
 ```cpp
 cv::Mat img = cv::imread("imgs/red_3.jpg");   // 读出来是 BGR
 cv::resize(img, img, {}, 0.5, 0.5);           // 宽高都变成 0.5 倍；{} 表示不指定绝对尺寸
+cv::resize(img, img, cv::Size(   ,   ));      // 指定大小，先宽后高
 cv::imshow("gray", img);                      // 窗口名自己起
 cv::waitKey(0);                               // 等到按任意键再结束
 ```
 
-演示里先缩小再 `imshow`、再 `resize(..., 2, 2)` 放大回去，只是为了窗口别太大，后面的二值化和找轮廓仍用原尺寸。
-
 <a id="sec-cvtcolor"></a>
+
 ### 2. 色彩空间与转换码
 
-OpenCV 默认通道顺序是 **BGR**，不是 RGB。`channels.at(0)` 是蓝，`at(2)` 是红。
 
 | 空间 | 通道 | 本课用途 |
 |------|------|----------|
-| **BGR** | B、G、R | `imread` 读出来就是它 |
+| **BGR** | B、G、R | `imread` 读取后的默认通道 |
 | **Gray** | 单通道亮度 | 二值化、找轮廓的前置步骤 |
 | **Binary** | 0 / 255 | `findContours` 的输入 |
 | **HSV** | H（色相）、S（饱和度）、V（明度） | 按颜色分割（后续识别红/蓝会用） |
@@ -226,12 +231,21 @@ cv::Mat drawcontours = bgr_img.clone();
 <a id="sec-demo"></a>
 ### 6. 课堂作业 `show_img_hw` / `main_hw`
 
-完整示例演示：
+`class_3/` 里的完整效果：
 
 ```bash
-make -C build 
+cd class_3
 build/show_img    # 应弹出 blue / green / red
 build/main        # 应弹出 gray / binary / drawcontours / drawrect
+```
+
+你在 `lecture3/` 里填写并运行：
+
+```bash
+cd lecture3
+make -C build show_img_hw main_hw
+build/show_img_hw
+build/main_hw
 ```
 
 `show_img_hw.cpp` 要写：`imread`、`split`、取 B/G/R、`resize`、`imshow`。
@@ -300,7 +314,7 @@ BGR 原图
 | `drawrect` | 用最小旋转矩形包住每条轮廓 | `minAreaRect` |
 | `detection` | 滤完、配完之后的灯条和装甲板 | `detect_armor` |
 
-跑起来看当前终态（还没有数字）：
+在 `class_3/` 里看当前终态（还没有数字）。这个程序不在 `lecture3/` 里：
 
 ```bash
 cd class_3
@@ -314,7 +328,7 @@ build/detect_armor imgs/red_2.jpg
 <a id="sec-detect-front"></a>
 ### 3. 灰度 → 二值 → 轮廓 → 旋转矩形
 
-和 `main.cpp` 完全一样：灯条是画面里最亮的东西，灰度后用阈值切开，白色连通域变成轮廓，再用旋转矩形包住。
+和 `class_3/main.cpp` 完全一样：灯条是画面里最亮的东西，灰度后用阈值切开，白色连通域变成轮廓，再用旋转矩形包住。
 
 ```cpp
 cv::cvtColor(bgr_img, gray_img, cv::COLOR_BGR2GRAY);
@@ -497,11 +511,12 @@ cv::warpPerspective(gray_img, pattern, M, {W, H});
 <a id="sec-detect-hw"></a>
 ### 8. 课堂任务 `detect_armor_hw`
 
-在 `detect_armor_hw.cpp` 里按 Task 把几何过滤和灯条配对填上。灰度 → 二值 → 轮廓已经写好，`get_color`、去重、画图也已经给好。阈值就是上面 `include/detector.hpp` 里那几行（`kMaxAngleErrorDeg` 等），作业已经 include 了这个头文件，直接写这些名字。
+在 `lecture3/detect_armor_hw.cpp` 里按 Task 把几何过滤和灯条配对填上。灰度 → 二值 → 轮廓已经写好，`get_color`、去重、画图也已经给好。阈值就是上面 `include/detector.hpp` 里那几行（`kMaxAngleErrorDeg` 等），作业已经 include 了这个头文件，直接写这些名字。
 
 ```bash
+cd lecture3
 make -C build detect_armor_hw
-build/detect_armor_hw              
+build/detect_armor_hw
 build/detect_armor_hw imgs/red_2.jpg
 ```
 
@@ -514,7 +529,7 @@ build/detect_armor_hw imgs/red_2.jpg
 | 5 | 用第 `i`、`j` 根灯条构造 `Armor armor` | Task4 后面 |
 | 6 | 写出装甲板的 `ratio_ok` / `side_ok` / `rect_ok`，都过了才 `emplace_back` | Task5 后面 |
 
-只填完 Task1～3：终端里「灯条」应大于 0，`detection` 上有红/蓝灯条，还没有绿框。六题都填完：应弹出 `binary` / `detection`，绿框套住装甲板，效果和 `build/detect_armor` 一致。
+只填完 Task1～3：终端里「灯条」应大于 0，`detection` 上有红/蓝灯条，还没有绿框。六题都填完：应弹出 `binary` / `detection`，绿框套住装甲板，效果和 `class_3/` 里的 `build/detect_armor` 一致。
 
 `kMaxAngleErrorDeg`、`kMaxRectangularErrorDeg` 单位是**度**，`lightbar.angle_error` 和 `armor.rectangular_error` 是**弧度**，比较时要乘 `CV_PI / 180.0`。
 
@@ -549,7 +564,7 @@ PnP 需要三样东西一起用：
 
 | 输入 | 从哪来 | 本课对应 |
 |------|--------|----------|
-| 相机内参 \(K\)、畸变 | 标定 | `pnp.cpp` 里先写一组示例；实战换成自己的标定值 |
+| 相机内参 \(K\)、畸变 | 标定 | `class_3/pnp.cpp` 里先写一组示例；你的 `pnp_hw.cpp` 里已经抄好，实战再换成自己的标定值 |
 | 装甲板真实 3D 尺寸 | 规则书 | 小装甲宽 13.5 cm，大装甲宽 23 cm，灯条长 5.6 cm |
 | 图像上的 4 个 2D 点 | 识别 | `armor.left.top`、`right.top`、`right.bottom`、`left.bottom` |
 
@@ -599,7 +614,7 @@ P^c = R \cdot P^w + t
 
 合在一起是 6 自由度位姿：3 个平移 + 3 个旋转，自瞄打的就是这个。
 
-`pnp.cpp` 图上的红 / 绿 / 蓝三根轴，就是把物体坐标的 X / Y / Z 按解出的 \(R,t\) 投回图像。轴扎在板上、方向合理，说明位姿大致对；穿到背面或拧成一团，多半是四点顺序反了，或大小板型选错了。
+在 `class_3/` 里运行 `build/pnp`（也可 `build/pnp imgs/red_3.jpg`）。图上的红 / 绿 / 蓝三根轴，就是把物体坐标的 X / Y / Z 按解出的 \(R,t\) 投回图像。轴扎在板上、方向合理，说明位姿大致对；穿到背面或拧成一团，多半是四点顺序反了，或大小板型选错了。这个程序不在 `lecture3/` 里。
 
 平面物体用 `SOLVEPNP_IPPE` 时，数学上可能出现**两组解**（板的正反两面都能投出相近的四个点）。正对着时 yaw 也不敏感：四个角点左右动一点点，算出来的左右转角会跳。工程里会再筛「背对相机」的解，并用重投影误差微调 yaw——那是后话。本课先保证 \(R,t\) 能求出来。
 
@@ -668,7 +683,7 @@ Y ↓
 <a id="sec-pnp-hw"></a>
 ### 6. 课后作业 Task 01～03
 
-内参 `camera_matrix`、`dist_coeffs` 和识别得到的 `armor` 已经写在 `pnp_hw.cpp` 里。按 Task 填三处：3D 点、像素点、调用 `solvePnP`。
+内参 `camera_matrix`、`dist_coeffs` 和识别得到的 `armor` 已经写在 `lecture3/pnp_hw.cpp` 里。按 Task 填三处：3D 点、像素点、调用 `solvePnP`。对照 `class_3/build/pnp`。
 
 | Task | 填什么 | 注意 |
 |------|--------|------|
@@ -699,6 +714,7 @@ cv::solvePnP( /* 在这里填写参数 */ );
 ```
 
 ```bash
+cd lecture3
 make -C build pnp_hw
 build/pnp_hw
 build/pnp_hw imgs/red_3.jpg
