@@ -9,14 +9,15 @@
 `show_img_hw.cpp`：
 
 ```cpp
-bgr_img = cv::imread("imgs/red_3.jpg");
 cv::split(bgr_img, channels);
-blue = channels.at(0);
-green = channels.at(1);
-red = channels.at(2);
+cv::Mat blue = channels.at(0);
+cv::Mat green = channels.at(1);
+cv::Mat red = channels.at(2);
+
 cv::resize(blue, blue, {}, 0.5, 0.5);
 cv::resize(green, green, {}, 0.5, 0.5);
 cv::resize(red, red, {}, 0.5, 0.5);
+
 cv::imshow("blue", blue);
 cv::imshow("green", green);
 cv::imshow("red", red);
