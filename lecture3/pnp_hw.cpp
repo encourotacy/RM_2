@@ -69,11 +69,10 @@ int main(int argc, char ** argv)
         // 用 armor 的灯条端点，顺序和 Task 01 一致
         std::vector<cv::Point2f> img_points{
             // 与 Task 01 同一顺序
+        
+        
+        
         };
-
-
-
-
         // #### Task 03 ################################################
         cv::Mat rvec, tvec;
         // 调用 solvePnP，参数：3D 点、像素点、内参、畸变、rvec、tvec

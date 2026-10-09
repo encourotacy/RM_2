@@ -71,8 +71,7 @@ cv::imshow("drawrect", drawrect);
 ```cpp
 // Task1
 bool angle_ok = lightbar.angle_error < kMaxAngleErrorDeg * CV_PI / 180.0;
-bool ratio_ok =
-    lightbar.ratio > kMinLightbarRatio && lightbar.ratio < kMaxLightbarRatio;
+bool ratio_ok = lightbar.ratio > kMinLightbarRatio && lightbar.ratio < kMaxLightbarRatio;
 bool length_ok = lightbar.length > kMinLightbarLength;
 
 // Task2
