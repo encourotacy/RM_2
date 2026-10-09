@@ -230,6 +230,19 @@ cv::Mat drawcontours = bgr_img.clone();
 
 <a id="sec-demo"></a>
 ### 6. 课堂作业 `show_img_hw` / `main_hw`
+#### tips:
+## <img src="./media/Class3/error.png" alt="armor_2" style="zoom:100%;" />
+
+```bash
+echo "$GSETTINGS_SCHEMA_DIR"
+echo "$XDG_DATA_DIRS"
+```
+- > 看是不是会出现snap，如果出现了，建议重装换成官网的`.deb`安装包
+
+```bash
+unset GSETTINGS_SCHEMA_DIR
+export XDG_DATA_DIRS=/usr/local/share:/usr/share
+```
 
 `class_3/` 里的完整效果：
 
